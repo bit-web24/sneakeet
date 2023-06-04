@@ -30,7 +30,7 @@ const ProductGrid = () => {
                             alt={product.name}
                             className="w-full h-70 object-cover mb-4"
                         />
-                        <h3 className="text-gray-800 font-medium mb-2">{product.name}</h3>
+                        <h3 className="text-gray-800 font-medium mb-2 text-center">{product.name}</h3>
                         <p className="text-gray-600">${product.price}</p>
                     </div>
                 ))}
