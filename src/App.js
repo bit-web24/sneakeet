@@ -7,13 +7,14 @@ import Favorites from "./components/Favorites";
 import Account from "./components/Account";
 import NotFound from "./components/NotFound";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/">
+          <Route path="/" element={<Layout/>}>
             <Route index element={<Home/>} />
             <Route path="/products" element={<Products/>} />
             <Route path="/products/:id" element={<Product/>} />
