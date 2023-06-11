@@ -7,11 +7,11 @@ const Footer = () => {
         <div className="flex justify-between items-center">
           <div className="text-gray-400">
             {/* Your business name or logo */}
-            <span className="text-white font-bold">My Business</span>
+            <span className="text-white font-bold">Sneakeet</span>
           </div>
           <div className="text-gray-400">
             <p className="text-sm">
-              &copy; {new Date().getFullYear()} My Business. All rights reserved.
+              &copy; {new Date().getFullYear()} Sneakeet. All rights reserved.
             </p>
             <p className="text-sm">
               <a href="/privacy" className="text-gray-400 hover:text-white">Privacy Policy</a> | <a href="/terms" className="text-gray-400 hover:text-white">Terms of Service</a>

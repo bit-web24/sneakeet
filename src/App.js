@@ -5,15 +5,6 @@ import ProductGrid from './components/ProductGrid';
 
 function App() {
   return (
-    // <div className="App">
-    //   <header className="App-header">
-    //   </header>
-    //   <div>
-    //     <p>Hello</p>
-    //   </div>
-    //   <footer className='App-footer'>
-    //   </footer>
-    // </div>
     <>
     <Navbar />
     <ProductGrid />
