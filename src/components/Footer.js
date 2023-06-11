@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex justify-between items-center">
           <div className="text-gray-400">
             {/* Your business name or logo */}
-            <span className="text-white font-bold">Sneakeet</span>
+            <span className="text-white font-bold text-2xl">Sneakeet</span>
           </div>
           <div className="text-gray-400">
             <p className="text-sm">
