@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import './index.css'
 
+import './index.css'
 import Layout from './components/Layout';
 import Home from './components/Home';
 import Products from './components/Products';
