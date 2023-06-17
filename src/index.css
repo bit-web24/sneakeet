@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.box{
+    transition: 0.3s all ease-in-out;
+}
+.box.active{
+    margin: none;
+    right: 0;
+}
+
+@media all and (min-width:768px) {
+   .ham-btn{
+    display: none;
+   }    
+}
