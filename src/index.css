@@ -9,9 +9,24 @@
     margin: none;
     right: 0;
 }
+.mega--wrap{
+    transition: 0.5s all ease-in-out;
+}
+.mega--wrap .active{
+   transition: 0.5s all ease-in-out;
+   top : 5.5rem;
+}
+
 
 @media all and (min-width:768px) {
    .ham-btn{
     display: none;
    }    
+
+}
+
+@media (max-width:768px){
+    .mega--menu{
+        display: none;
+    }
 }

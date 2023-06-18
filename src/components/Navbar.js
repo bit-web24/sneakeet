@@ -18,6 +18,16 @@ const Navbar = () => {
       :
       box.classList.add('active');
   }
+  function MegaClick() {
+    let mega = document.querySelector('.mega--menu');
+    mega.classList.contains('active') ?
+      mega.classList.remove('active')
+      : mega.classList.add('active');
+  }
+  function Car() {
+    let mega = document.querySelector('.mega--menu');
+    mega.style.display = "none";
+  }
 
   return (
     <nav className="fixed z-40 w-full" style={
@@ -26,7 +36,7 @@ const Navbar = () => {
         backdropFilter: `blur(10px)`,
       }
     }>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             {/* Your logo or site name */}
@@ -36,21 +46,84 @@ const Navbar = () => {
             <div className='ham-btn block' onClick={handleNav}>
               <i class="fa-solid fa-bars"></i>
             </div>
-            <div className="box absolute top-12 md:-top-14 bg-slate-100 md:bg-inherit -right-96 md:right-0 md:block p-8 rounded-b-lg">
-              <div className="md:ml-10 flex flex-col gap-5 md:gap-0 md:flex md:flex-row items-baseline space-x-4">
+            <div className="box absolute md:static top-12 md:-top-14 bg-slate-100 md:bg-inherit -right-96 md:right-0 md:block p-8 rounded-b-lg">
+              <div className="md:ml-5 flex flex-col gap-5 md:gap-0 md:flex md:flex-row items-baseline space-x-1">
                 {/* Navigation links */}
                 <SearchBar onSearch={handleSearch} />
-                <a href="/favorites" className=" block md:flex place-items-center gap-1 text-gray-800 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium">
-                  <FaHeart className="inline-block mr-1" />
-                  Favorites
-                </a>
+                <div className='mega--wrap cursor-pointer' onClick={MegaClick}>
+                  <span className=" block md:flex place-items-center gap-1 text-gray-800 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium">
+                    <i class="fa-solid fa-caret-down inline-block"></i>
+                    Menu</span>
+                  <div className="mega--menu absolute p-4 md:p-0 w-full md:w-screen bg-slate-300 md:-top-96 md:-right-9">
+                    <div class="md:flex md:flex-wrap ">
+                      <div className='left-car border-b-2 pb-2 md:hidden' onClick={Car}>
+                        <i className="fa-sharp fa-solid fa-caret-left"></i>
+                      </div>
+                      <a href="#" className='box--mega p-2  w-full md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
+                        <div class="">
+                          <h2>Shoes</h2>
+                          <p>lorem ipsum dolor amit.</p>
+                        </div>
+                      </a>
+
+                    </div>
+                  </div>
+                </div>
                 <a href="/cart" className="block md:flex place-items-center gap-1 text-gray-800 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium">
                   <FaShoppingCart className="inline-block mr-1" />
                   Cart
                 </a>
                 <a href="/account" className="block md:flex place-items-center gap-1 text-gray-800 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium">
                   <FaUser className="inline-block mr-1" />
-                  Account
+                  Profile
                 </a>
               </div>
             </div>
