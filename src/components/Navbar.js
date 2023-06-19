@@ -33,7 +33,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="fixed z-40 w-full" style={
+    <nav className="static top-0 z-40 w-full" style={
       {
         backgroundColor: `#F0F1F198`,
         backdropFilter: `blur(10px)`,

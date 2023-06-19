@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 
 import { Autoplay, Pagination, Navigation } from "swiper";
 
-export default function Banner() {
+const Banner = () => {
     return (
         <>
             <Swiper
@@ -40,3 +40,5 @@ export default function Banner() {
         </>
     );
 }
+
+export default Banner;
