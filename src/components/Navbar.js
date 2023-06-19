@@ -28,9 +28,6 @@ const Navbar = () => {
     let mega = document.querySelector('.mega--menu');
     mega.style.display = "none";
   }
-  function handle(){
-    cobsole.log('handle');
-  }
 
   return (
     <nav className="fixed z-40 w-full" style={
