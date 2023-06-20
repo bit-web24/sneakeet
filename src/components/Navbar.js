@@ -29,7 +29,7 @@ const Navbar = () => {
     mega.style.display = "none";
   }
   function handle(){
-    cobsole.log('handle');
+    console.log('handle');
   }
 
   return (
