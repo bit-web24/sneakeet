@@ -5,6 +5,7 @@
 body{
     overflow-x: hidden;
 }
+
 .box:not(:active){
     right: 45em;
     transition: 0.3s all ease-in-out;
