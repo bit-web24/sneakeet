@@ -33,13 +33,13 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="static top-0 z-40 w-full" style={
+    <nav className="top-0 z-40 w-full sticky" style={
       {
         backgroundColor: `#F0F1F198`,
         backdropFilter: `blur(10px)`,
       }
     }>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             {/* Your logo or site name */}
@@ -49,7 +49,7 @@ const Navbar = () => {
             <div className='ham-btn block' onClick={handleNav}>
               <i class="fa-solid fa-bars"></i>
             </div>
-            <div className="box absolute md:static top-12 md:-top-14 bg-slate-100 md:bg-inherit -right-96 md:right-0 md:block p-8 rounded-b-lg">
+            <div className="box absolute md:static top-12 md:-top-14 bg-slate-100 md:bg-inherit md:right-0 md:block p-8 rounded-b-lg">
               <div className="md:ml-5 flex flex-col gap-5 md:gap-0 md:flex md:flex-row items-baseline space-x-1">
                 {/* Navigation links */}
                 <SearchBar onSearch={handleSearch} />
