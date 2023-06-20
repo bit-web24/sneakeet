@@ -5,12 +5,13 @@
 body{
     overflow-x: hidden;
 }
-.box{
+.box:not(:active){
+    right: 45em;
     transition: 0.3s all ease-in-out;
 }
 .box.active{
     margin: none;
-    right: 0;
+    right: 50%;
 }
 .mega--wrap{
     transition: 0.5s all ease-in-out;
