@@ -1,140 +1,134 @@
-import React, { useState } from 'react';
-import { FaHeart, FaShoppingCart, FaUser } from 'react-icons/fa';
-import SearchBar from './Navbar/SearchBar';
-import '../index.css'
 
-const Navbar = () => {
+import React,{useState} from 'react';
+import { MegaMenu } from 'primereact/megamenu';
+import SearchBar from './Navbar/SearchBar';
+
+export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearch = (term) => {
+    const handleSearch = (term) => {
     setSearchTerm(term);
     console.log(searchTerm);
   };
+    const items = [
+        {
+            label: 'Videos', icon: 'pi pi-fw pi-video',
+            items: [
+                [
+                    {
+                        label: 'Video 1',
+                        items: [{ label: 'Video 1.1' }, { label: 'Video 1.2' }]
+                    },
+                    {
+                        label: 'Video 2',
+                        items: [{ label: 'Video 2.1' }, { label: 'Video 2.2' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'Video 3',
+                        items: [{ label: 'Video 3.1' }, { label: 'Video 3.2' }]
+                    },
+                    {
+                        label: 'Video 4',
+                        items: [{ label: 'Video 4.1' }, { label: 'Video 4.2' }]
+                    }
+                ]
+            ]
+        },
+        {
+            label: 'Users', icon: 'pi pi-fw pi-users',
+            items: [
+                [
+                    {
+                        label: 'User 1',
+                        items: [{ label: 'User 1.1' }, { label: 'User 1.2' }]
+                    },
+                    {
+                        label: 'User 2',
+                        items: [{ label: 'User 2.1' }, { label: 'User 2.2' }]
+                    },
+                ],
+                [
+                    {
+                        label: 'User 3',
+                        items: [{ label: 'User 3.1' }, { label: 'User 3.2' }]
+                    },
+                    {
+                        label: 'User 4',
+                        items: [{ label: 'User 4.1' }, { label: 'User 4.2' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'User 5',
+                        items: [{ label: 'User 5.1' }, { label: 'User 5.2' }]
+                    },
+                    {
+                        label: 'User 6',
+                        items: [{ label: 'User 6.1' }, { label: 'User 6.2' }]
+                    }
+                ]
+            ]
+        },
+        {
+            label: 'Events', icon: 'pi pi-fw pi-calendar',
+            items: [
+                [
+                    {
+                        label: 'Event 1',
+                        items: [{ label: 'Event 1.1' }, { label: 'Event 1.2' }]
+                    },
+                    {
+                        label: 'Event 2',
+                        items: [{ label: 'Event 2.1' }, { label: 'Event 2.2' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'Event 3',
+                        items: [{ label: 'Event 3.1' }, { label: 'Event 3.2' }]
+                    },
+                    {
+                        label: 'Event 4',
+                        items: [{ label: 'Event 4.1' }, { label: 'Event 4.2' }]
+                    }
+                ]
+            ]
+        },
+        {
+            label: 'Settings', icon: 'pi pi-fw pi-cog',
+            items: [
+                [
+                    {
+                        label: 'Setting 1',
+                        items: [{ label: 'Setting 1.1' }, { label: 'Setting 1.2' }]
+                    },
+                    {
+                        label: 'Setting 2',
+                        items: [{ label: 'Setting 2.1' }, { label: 'Setting 2.2' }]
+                    },
+                    {
+                        label: 'Setting 3',
+                        items: [{ label: 'Setting 3.1' }, { label: 'Setting 3.2' }]
+                    }
+                ],
+                [
+                    {
+                        label: 'Technology 4',
+                        items: [{ label: 'Setting 4.1' }, { label: 'Setting 4.2' }]
+                    }
+                ]
+            ]
+        }
+    ];
 
-  function handleNav() {
-    let box = document.querySelector('.box');
-    box.classList.contains('active') ?
-      box.classList.remove('active')
-      :
-      box.classList.add('active');
-  }
-  function MegaClick() {
-    let mega = document.querySelector('.mega--menu');
-    mega.classList.contains('active') ?
-      mega.classList.remove('active')
-      : mega.classList.add('active');
-  }
-  function Car() {
-    let mega = document.querySelector('.mega--menu');
-    mega.style.display = "none";
-  }
-  function handle(){
-    console.log('handle');
-  }
-
-  return (
-    <nav className="top-0 z-40 w-full sticky" style={
-      {
-        backgroundColor: `#F0F1F198`,
-        backdropFilter: `blur(10px)`,
-      }
-    }>
-      <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0">
-            {/* Your logo or site name */}
-            <a href="/" className=" text-gray-700 font-bold text-2xl">Sneakeet</a>
-          </div>
-          <div className="switch-box relative flex">
-            <div className='ham-btn block' onClick={handleNav}>
-              <i class="fa-solid fa-bars"></i>
-            </div>
-            <div className="box absolute md:static top-12 md:-top-14 bg-slate-100 md:bg-inherit md:right-0 md:block p-8 rounded-b-lg">
-              <div className="md:ml-5 flex flex-col gap-5 md:gap-0 md:flex md:flex-row items-baseline space-x-1">
-                {/* Navigation links */}
-                <SearchBar onSearch={handleSearch} />
-                <div className='mega--wrap cursor-pointer' onClick={MegaClick}>
-                  <span className=" block md:flex place-items-center gap-1 text-gray-800 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium">
-                    <i class="fa-solid fa-caret-down inline-block"></i>
-                    Menu</span>
-                  <div className="mega--menu absolute p-4 md:p-0 w-full md:w-screen bg-slate-300 md:-top-96 md:-right-9">
-                    <div class="md:flex md:flex-wrap ">
-                      <div className='left-car border-b-2 pb-2 md:hidden' onClick={Car}>
-                        <i className="fa-sharp fa-solid fa-caret-left"></i>
-                      </div>
-                      <a href="#" className='box--mega p-2  w-full md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-                      <a href="#" className='box--mega w-full p-2 md:w-1/3 md:border-2'>
-                        <div class="">
-                          <h2>Shoes</h2>
-                          <p>lorem ipsum dolor amit.</p>
-                        </div>
-                      </a>
-
-                    </div>
-                  </div>
-                </div>
-                <a href="/cart" className="block md:flex place-items-center gap-1 text-gray-800 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium">
-                  <FaShoppingCart className="inline-block mr-1" />
-                  Cart
-                </a>
-                <a href="/account" className="block md:flex place-items-center gap-1 text-gray-800 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium">
-                  <FaUser className="inline-block mr-1" />
-                  Profile
-                </a>
-              </div>
-            </div>
-          </div>
+    return (
+      <>
+      <SearchBar onSearch={handleSearch} />,
+        <div className="card">
+            <MegaMenu model={items} breakpoint="960px" />
         </div>
-      </div>
-    </nav>
-  );
-};
-
-export default Navbar;
+        </>
+    )
+}
