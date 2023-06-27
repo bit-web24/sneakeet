@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearch = (term) => {
+    const handleSearch = (term) => {
     setSearchTerm(term);
     console.log(searchTerm);
   };
+
   return (
     <>
       <header>
