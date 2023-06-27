@@ -1,20 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
 const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
 
 const router = require('./routes/routes');
 const admin = require('./routes/admin');
-require('dotenv').config();
 
+dotenv.config();
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Middleware
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+// Routes
 app.use('/api', router);
 app.use('/admin', admin);
 
-port = process.env.PORT;
-const server = app.listen(port, (req, res) => {
-    console.log(`Server running on port: ${port}`);
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running on port: ${port}`);
 });
-
-module.exports = server;
