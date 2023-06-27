@@ -4,11 +4,13 @@ const app = express();
 const cookieParser = require('cookie-parser');
 
 const router = require('./routes/routes');
+const admin = require('./routes/admin');
 require('dotenv').config();
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use('/', router);
+app.use('/api', router);
+app.use('/admin', admin);
 
 port = process.env.PORT;
 const server = app.listen(port, (req, res) => {
