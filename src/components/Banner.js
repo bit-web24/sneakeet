@@ -25,6 +25,7 @@ const Banner = () => {
                 style={{
                     width: `100%`,
                     height: `75vh`,
+                    zIndex:-1
                 }}
             >
                 <SwiperSlide>
