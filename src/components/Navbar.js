@@ -1,135 +1,62 @@
-
-import React,{useState} from 'react';
-import { MegaMenu } from 'primereact/megamenu';
-import SearchBar from './Navbar/SearchBar';
+import React, { useState } from "react";
+import { MegaMenu } from "primereact/megamenu";
+import SearchBar from "./Navbar/SearchBar";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-    const handleSearch = (term) => {
+  const handleSearch = (term) => {
     setSearchTerm(term);
     console.log(searchTerm);
   };
-    const items = [
-        {
-            label: 'Videos', icon: 'pi pi-fw pi-video',
-            items: [
-                [
-                    {
-                        label: 'Video 1',
-                        items: [{ label: 'Video 1.1' }, { label: 'Video 1.2' }]
-                    },
-                    {
-                        label: 'Video 2',
-                        items: [{ label: 'Video 2.1' }, { label: 'Video 2.2' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Video 3',
-                        items: [{ label: 'Video 3.1' }, { label: 'Video 3.2' }]
-                    },
-                    {
-                        label: 'Video 4',
-                        items: [{ label: 'Video 4.1' }, { label: 'Video 4.2' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Users', icon: 'pi pi-fw pi-users',
-            items: [
-                [
-                    {
-                        label: 'User 1',
-                        items: [{ label: 'User 1.1' }, { label: 'User 1.2' }]
-                    },
-                    {
-                        label: 'User 2',
-                        items: [{ label: 'User 2.1' }, { label: 'User 2.2' }]
-                    },
-                ],
-                [
-                    {
-                        label: 'User 3',
-                        items: [{ label: 'User 3.1' }, { label: 'User 3.2' }]
-                    },
-                    {
-                        label: 'User 4',
-                        items: [{ label: 'User 4.1' }, { label: 'User 4.2' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'User 5',
-                        items: [{ label: 'User 5.1' }, { label: 'User 5.2' }]
-                    },
-                    {
-                        label: 'User 6',
-                        items: [{ label: 'User 6.1' }, { label: 'User 6.2' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Events', icon: 'pi pi-fw pi-calendar',
-            items: [
-                [
-                    {
-                        label: 'Event 1',
-                        items: [{ label: 'Event 1.1' }, { label: 'Event 1.2' }]
-                    },
-                    {
-                        label: 'Event 2',
-                        items: [{ label: 'Event 2.1' }, { label: 'Event 2.2' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Event 3',
-                        items: [{ label: 'Event 3.1' }, { label: 'Event 3.2' }]
-                    },
-                    {
-                        label: 'Event 4',
-                        items: [{ label: 'Event 4.1' }, { label: 'Event 4.2' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Settings', icon: 'pi pi-fw pi-cog',
-            items: [
-                [
-                    {
-                        label: 'Setting 1',
-                        items: [{ label: 'Setting 1.1' }, { label: 'Setting 1.2' }]
-                    },
-                    {
-                        label: 'Setting 2',
-                        items: [{ label: 'Setting 2.1' }, { label: 'Setting 2.2' }]
-                    },
-                    {
-                        label: 'Setting 3',
-                        items: [{ label: 'Setting 3.1' }, { label: 'Setting 3.2' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Technology 4',
-                        items: [{ label: 'Setting 4.1' }, { label: 'Setting 4.2' }]
-                    }
-                ]
-            ]
-        }
-    ];
-
-    return (
-      <>
-      <SearchBar onSearch={handleSearch} />,
-        <div className="card">
-            <MegaMenu model={items} breakpoint="960px" />
+  return (
+    <>
+      <header>
+        <div class=" py-2 px-4 flex flex-wrap justify-between items-center">
+            <h1 class=" text-white m-2 md:m-0 text-2xl font-semibold">SNEAKEET</h1>
+          <SearchBar onSearch={handleSearch} />
         </div>
-        </>
-    )
+        <nav>
+          <ul>
+            <li>
+              <Link to={"/"}>Home</Link>
+            </li>
+            <li>
+              <a href="#">Service</a>
+              <ul class="box">
+                <img src="./product-3.jpeg" alt="shoes" />
+                <li>Home - 2</li>
+                <li>Home - 3</li>
+                <img src="./product-3.jpeg" alt="shoes" />
+                <li>Home - 5</li>
+                <li>Home - 6</li>
+                <li>Home - 7</li>
+                <li>Home - 8</li>
+                <li>Home - 9</li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Products</a>
+              <ul class="box">
+                <li>Home - 1</li>
+                <li>Home - 2</li>
+                <li>Home - 3</li>
+                <li>Home - 3</li>
+              </ul>
+            </li>
+            <li>
+              <Link to={`/cart`}>Cart</Link>
+            </li>
+            <li>
+              <Link to={`/signup`}>Signup</Link>
+            </li>
+            <li>
+              <Link to={`/account`}>Profile</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    </>
+  );
 }
-        
