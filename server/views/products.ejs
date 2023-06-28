@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <title>Edit Product</title>
+</head>
+
+<body>
+  <div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-4">All Products</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <% products.forEach((product)=> { %>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <h2 class="text-lg font-bold mb-2">
+            <%= product.name %>
+          </h2>
+          <p><strong>Brand:</strong>
+            <%= product.brand %>
+          </p>
+          <p><strong>Category:</strong>
+            <%= product.category.join(', ') %></p>
+        <p><strong>Sizes:</strong> <%= product.sizes.join(' , ') %></p>
+        <p><strong>Colors:</strong> <%= product.colors.join(' , ') %></p>
+        <div class="flex justify-between items-center mt-4">
+          <a href="/products/<%= product._id %>" class="text-blue-500 hover:underline">View Details</a>
+          <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Add to Cart</button>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+</body>
+</html>
