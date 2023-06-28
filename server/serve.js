@@ -2,23 +2,35 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
+const connectToDB = require('./database/db');
 
 const router = require('./routes/routes');
 const admin = require('./routes/admin');
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
-// Middleware
-app.use(bodyParser.json());
-app.use(cookieParser());
+async function startServer() {
+  try {
+    // Database Connection
+    const client = await connectToDB();
 
-// Routes
-app.use('/api', router);
-app.use('/admin', admin);
+    // Middleware
+    app.use(bodyParser.json());
+    app.use(cookieParser());
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on port: ${port}`);
-});
+    // Routes
+    app.use('/api', router);
+    app.use('/admin', admin);
+
+    // Start the server
+    app.listen(port, () => {
+      console.log(`Server running on port: ${port}`);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+startServer();
