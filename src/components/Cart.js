@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 function Cart() {
   const [Basket, setBasket] = useState([]);
@@ -26,8 +27,33 @@ function Cart() {
     ]);
   }, []);
 
+  const childVariants = {
+    initial: {
+      y: "50px",
+    },
+    final: {
+      y: "0px",
+      transition: {
+        duration: 0.5,
+        delay: 0.5,
+      },
+    },
+  };
+
   return (
     <>
+    <motion.div
+      initial={{ y : '100vh', scale : 0.4 }}
+      animate ={{ y : '0vh',scale :1}}
+      final={{ y: "0vh",
+        transition: {
+          type: "spring",
+          mass: 0.4,
+        },
+      }}
+      exit={{ y: "100px" }}
+      transition={{ duration: 0.6 }}
+    >
       {Basket.length === 0 ? (
         <div className="w-full h-screen grid place-items-center">
           <div className="p-2">
@@ -39,7 +65,7 @@ function Cart() {
         <div className="container min-h-screen">
           {Basket.map((x) => {
             return (
-              <div
+              <motion.div variants={childVariants} initial="initial" animate="final"
                 key={x.key}
                 className="w-full p-4 m-4  h-fit flex gap-4 flex-wrap justify-between items-center shadow-2xl shadow-neutral-300"
               >
@@ -65,11 +91,12 @@ function Cart() {
                     BUY
                   </button>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
       )}
+      </motion.div>
     </>
   );
 }
