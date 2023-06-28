@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { AnimatePresence } from "framer-motion";
 
 import './index.css'
 import Layout from './components/Layout';
@@ -18,6 +19,7 @@ import Signup from './components/Auth/Signup';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     checkAuthenticationStatus();
@@ -34,8 +36,8 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Routes>
+    <AnimatePresence mode='wait'>
+        <Routes key={location.pathname} location={location}>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/signup" element={<Signup />} />
@@ -54,7 +56,7 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Router>
+      </AnimatePresence>
     </>
   );
 }

@@ -144,3 +144,7 @@ nav ul li ul.box:first-child img{
         display: none;
     }
 }
+
+.grid--info{
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+}

@@ -1,9 +1,21 @@
 import React from 'react';
+import { motion } from 'framer-motion'
 
 const Signup = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="max-w-md w-full mx-auto p-8 bg-white rounded-md shadow-md">
+      <motion.div 
+      initial={{ y: "100px" }}
+      animate={{y : "0px"}}
+      final={{ y: "0px",
+        transition: {
+          type: "spring",
+          mass: 0.4,
+        },
+      }}
+      exit={{ y: "100px" }}
+      transition={{ duration: 1 }}
+      className="max-w-md w-full mx-auto p-8 bg-white rounded-md shadow-md">
         <h2 className="text-3xl font-semibold text-gray-800 mb-6">Sign Up</h2>
         <form>
           <div className="mb-4">
@@ -46,7 +58,7 @@ const Signup = () => {
             Sign Up
           </button>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };
