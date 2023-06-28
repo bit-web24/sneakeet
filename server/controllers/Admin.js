@@ -1,92 +1,113 @@
 const Product = require('../models/Product');
 
-const displayAllProducts = (req, res) => {
-    // Logic to fetch all products from the database
-    // and render the view to display the products
-    res.render('admin/products');
+const displayAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+
+    res.render('admin/products', { products });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 const displayCreateProductForm = (req, res) => {
-    // Render the view with the form to create a new product
-    res.render('admin/new-product');
+  res.render('admin/new-product');
 };
 
 const createProduct = async (req, res) => {
-    // Logic to create a new product based on the data
-    try {
-        const { name, brand, category, sizes, colors, imgs } = req.body;
-    
-        // Create a new Product
-        const newProduct = new Product({
-          name,
-          brand,
-          category,
-          sizes,
-          colors,
-          imgs,
-        });
-    
-        // Save the Product to the database
-        await newProduct.save();
-    
-        // Respond with a success message and the created Product
-        res.status(201).json({ message: 'Product created successfully', product: newProduct });
-      } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
-      }
-    // submitted through the form
-    // and redirect to the product details page
-    res.redirect('/admin/products/:id');
+  try {
+    const { name, brand, category, sizes, colors, imgs } = req.body.product;
+
+    const newProduct = new Product({
+      name,
+      brand,
+      category,
+      sizes,
+      colors,
+      imgs,
+    });
+
+    await newProduct.save();
+
+    res.status(201).json({ message: 'Product created successfully', product: newProduct });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 const displayProduct = async (req, res) => {
-    // Logic to fetch the product with the specified ID
-    // from the database and render the view to display
-    // the product details
-    try {
-        // Retrieve the product ID from the request
-        const productId = req.params.productId;
-    
-        // Find the product by ID
-        const product = await Product.findById(productId);
-        if (!product) {
-          return res.status(404).json({ message: 'Product not found' });
-        }
-    
-        // Respond with the product details
-        res.status(200).json({ product });
-      } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
-      }
-    res.render('admin/product-details');
+  try {
+    const productId = req.params.id;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.render('admin/product-details', { product });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
-const displayEditProductForm = (req, res) => {
-    // Logic to fetch the product with the specified ID
-    // from the database and render the view with the form
-    // to edit the product
-    res.render('admin/edit-product');
+const displayEditProductForm = async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.render('admin/edit-product', { product });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
-const updateProduct = (req, res) => {
-    // Logic to update the product with the specified ID
-    // based on the data submitted through the form
-    // and redirect to the product details page
-    res.redirect('/admin/products/:id');
+const updateProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    product.name = req.body.product.name || product.name;
+    product.brand = req.body.product.brand || product.brand;
+    product.category = req.body.product.category || product.category;
+    product.sizes = req.body.product.sizes || product.sizes;
+    product.colors = req.body.product.colors || product.colors;
+    product.imgs = req.body.product.imgs || product.imgs;
+    product.updatedAt = Date.now();
+
+    await product.save();
+
+    res.redirect('/admin/products/' + productId);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
-const deleteProduct = (req, res) => {
-    // Logic to delete the product with the specified ID
-    // from the database and redirect to the products list page
+const deleteProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    await Product.findByIdAndDelete(productId);
+
     res.redirect('/admin/products');
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 module.exports = {
-    displayAllProducts,
-    displayCreateProductForm,
-    createProduct,
-    displayProduct,
-    displayEditProductForm,
-    updateProduct,
-    deleteProduct,
+  displayAllProducts,
+  displayCreateProductForm,
+  createProduct,
+  displayProduct,
+  displayEditProductForm,
+  updateProduct,
+  deleteProduct,
 };
