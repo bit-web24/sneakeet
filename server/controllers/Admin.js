@@ -11,7 +11,7 @@ const displayAllProducts = async (req, res) => {
 };
 
 const displayCreateProductForm = (req, res) => {
-  res.render('admin/new-product');
+  res.render('new-product');
 };
 
 const createProduct = async (req, res) => {
@@ -44,7 +44,7 @@ const displayProduct = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.render('admin/product-details', { product });
+    res.render('product-details', { product });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
@@ -59,7 +59,7 @@ const displayEditProductForm = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.render('admin/edit-product', { product });
+    res.render('edit-product', { product });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
@@ -84,7 +84,7 @@ const updateProduct = async (req, res) => {
 
     await product.save();
 
-    res.redirect('/admin/products/' + productId);
+    res.redirect('products' + productId);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
@@ -96,7 +96,7 @@ const deleteProduct = async (req, res) => {
 
     await Product.findByIdAndDelete(productId);
 
-    res.redirect('/admin/products');
+    res.redirect('products');
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
