@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 
 import { Autoplay, Pagination, Navigation } from "swiper";
 
-export default function Banner() {
+const Banner = () => {
     return (
         <>
             <Swiper
@@ -24,19 +24,30 @@ export default function Banner() {
                 modules={[Autoplay, Pagination, Navigation]}
                 style={{
                     width: `100%`,
-                    height: `75vh`,
+                    height: `90vh`,
                 }}
             >
                 <SwiperSlide>
-                    <div className=" w-full h-full bg-emerald-600"></div>
+                    <div className=" w-full grid h-full place-items-center bg-emerald-600">
+                        <img src={require('../assets/shop/1st_shoe.jpg')}
+                          className="w-full h-fit"/>
+                    </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className=" w-full h-full bg-slate-400"></div>
+                <div className=" w-full grid h-full place-items-center bg-emerald-600">
+                        <img src={require('../assets/shop/2nd_shoe.jpg')}
+                          className="w-full h-fit"/>
+                    </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className=" w-full h-full bg-slate-100"></div>
+                <div className=" w-full grid h-full place-items-center bg-emerald-600">
+                        <img src={require('../assets/shop/1st_shoe.jpg')}
+                          className="w-full h-fit"/>
+                    </div>
                 </SwiperSlide>
             </Swiper>
         </>
     );
 }
+
+export default Banner;
