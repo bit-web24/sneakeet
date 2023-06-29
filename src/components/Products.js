@@ -4,6 +4,7 @@ import product1Image from "../assets/images/product-1.jpeg";
 import Banner from './Banner'
 import Footer from "./Footer";
 
+
 const Products = () => {
   // Dummy product data for demonstration purposes
   const products = [];
