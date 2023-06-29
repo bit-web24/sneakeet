@@ -1,18 +1,41 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
 const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
+const connectToDB = require('./database/db');
+const path = require('path');
 
 const router = require('./routes/routes');
-require('dotenv').config();
+const admin = require('./routes/admin');
 
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use('/', router);
+dotenv.config();
+const app = express();
+const port = process.env.PORT || 5000;
 
-port = process.env.PORT;
-const server = app.listen(port, (req, res) => {
-    console.log(`Server running on port: ${port}`);
-});
+async function startServer() {
+  try {
+    // Database Connection
+    const client = await connectToDB();
 
-module.exports = server;
+    // Set template engine
+    app.set('view engine', 'ejs');
+    app.set('views', path.join(__dirname, 'views'));
+
+    // Middleware
+    app.use(bodyParser.json());
+    app.use(cookieParser());
+
+    // Routes
+    app.use('/api', router);
+    app.use('/admin', admin);
+
+    // Start the server
+    app.listen(port, () => {
+      console.log(`Server running on port: ${port}`);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+startServer();

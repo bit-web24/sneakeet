@@ -16,7 +16,6 @@ const customerSchema = new mongoose.Schema({
         unique: true,
         validate: {
             validator: function (value) {
-                // Regular expression to validate email format
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return emailRegex.test(value);
             },
@@ -24,6 +23,14 @@ const customerSchema = new mongoose.Schema({
         },
     },
     password: {
+        type: String,
+        required: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+    },
+    address: {
         type: String,
         required: true,
     },

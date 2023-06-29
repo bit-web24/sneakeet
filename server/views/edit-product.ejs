@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+    <title>Edit Product</title>
+</head>
+
+<body>
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold mb-4">Edit Product</h1>
+
+        <form action="/admin/products/<%= product._id %>?_method=PUT" method="POST" class="max-w-sm">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Name:</label>
+                <input type="text" id="name" name="name" class="form-input" value="<%= product.name %>">
+            </div>
+
+            <div class="mb-4">
+                <label for="brand" class="block text-gray-700 font-bold mb-2">Brand:</label>
+                <input type="text" id="brand" name="brand" class="form-input" value="<%= product.brand %>">
+            </div>
+
+            <div class="mb-4">
+                <label for="category" class="block text-gray-700 font-bold mb-2">Category:</label>
+                <input type="text" id="category" name="category" class="form-input"
+                    value="<%= product.category.join(', ') %>">
+            </div>
+
+            <div class="mb-4">
+                <label for="sizes" class="block text-gray-700 font-bold mb-2">Sizes:</label>
+                <input type="text" id="sizes" name="sizes" class="form-input" value="<%= product.sizes.join(', ') %>">
+            </div>
+
+            <div class="mb-4">
+                <label for="colors" class="block text-gray-700 font-bold mb-2">Colors:</label>
+                <input type="text" id="colors" name="colors" class="form-input"
+                    value="<%= product.colors.join(', ') %>">
+            </div>
+
+            <div class="mb-4">
+                <label for="imgs" class="block text-gray-700 font-bold mb-2">Images:</label>
+                <input type="text" id="imgs" name="imgs" class="form-input" value="<%= product.imgs.join(', ') %>">
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Update Product
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -3,13 +3,13 @@ const router = express.Router();
 const dotenv = require('dotenv');
 
 const { authorize } = require('../middlewares/auth');
-const authanticator = require('../controllers/auth/authenticator');
+const authanticator = require('../controllers/Authenticator');
 const customer = require('../controllers/Customer');
 
 dotenv.config();
 
 const API_VERSION = process.env.API_VERSION;
-const BASE_URL = `/api/${API_VERSION}/account/:_id`;
+const BASE_URL = `/${API_VERSION}/account/:_id`;
 
 // Authanticate and Authorize
 router.post('/signup', authanticator.signup);
