@@ -59,6 +59,19 @@ const Signup = () => {
           </button>
         </form>
       </motion.div>
+      <motion.div 
+    className='fixed top-0 left-0 w-full h-screen bg-slate-950 origin-bottom grid place-items-center' initial={{ scaleY : 0}}
+    animate={{scaleY : 0 }} final={{ scaleY : 1 }}
+    transition={{ duration : 1.5, ease : [0.22,1, 0.36,1]}}>
+        <h1 className="font-2xl text-gray-500 font-medium">SNEAKEET</h1>
+      </motion.div>
+    <motion.div 
+    className='fixed top-0 left-0 w-screen h-screen bg-slate-950 origin-top grid place-items-center'
+     initial={{ scaleY : 1}}
+    animate={{scaleY : 0 }} final={{ scaleY : 0 }}
+    transition={{ duration : 1.5, ease : [0.22,1, 0.36,1]}}>
+       <motion.h1 initial={{opacity : 1}} animate={{opacity:0}} className=" text-9xl text-gray-300 font-medium">SNEAKEET</motion.h1>
+      </motion.div>
     </div>
   );
 };
