@@ -11,6 +11,27 @@ export default function Navbar() {
     console.log(searchTerm);
   };
 
+  function handleNav() {
+    let box = document.querySelector('.box');
+    box.classList.contains('active') ?
+      box.classList.remove('active')
+      :
+      box.classList.add('active');
+  }
+  function MegaClick() {
+    let mega = document.querySelector('.mega--menu');
+    mega.classList.contains('active') ?
+      mega.classList.remove('active')
+      : mega.classList.add('active');
+  }
+  function Car() {
+    let mega = document.querySelector('.mega--menu');
+    mega.style.display = "none";
+  }
+  function handle(){
+    cobsole.log('handle');
+  }
+
   return (
     <>
       <header>
