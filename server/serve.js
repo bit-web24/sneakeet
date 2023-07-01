@@ -30,7 +30,7 @@ async function startServer() {
     app.use('/admin', admin);
 
     // Start the server
-    app.listen(port, () => {
+    return app.listen(port, () => {
       console.log(`Server running on port: ${port}`);
     });
   } catch (error) {
@@ -38,4 +38,4 @@ async function startServer() {
   }
 }
 
-startServer();
+module.exports = startServer();
