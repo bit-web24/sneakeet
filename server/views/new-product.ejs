@@ -8,47 +8,53 @@
     <title>Create New Product</title>
 </head>
 
-<body>
-    <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold mb-4">Create New Product</h1>
+<body class="bg-gray-100">
+    <div class="flex justify-center items-center h-screen">
+        <div class="w-full max-w-sm bg-white rounded shadow-lg p-6 border border-gray-300">
+            <h1 class="text-3xl font-bold mb-4 text-center">Create New Product</h1>
 
-        <form action="/admin/products" method="POST" class="max-w-sm">
-            <div class="mb-4">
-                <label for="name" class="block text-gray-700 font-bold mb-2">Name:</label>
-                <input type="text" id="name" name="name" class="form-input">
-            </div>
+            <form action="/admin/products" method="POST">
+                <fieldset>
+                    <legend class="block text-gray-700 font-bold mb-4">Product Details</legend>
 
-            <div class="mb-4">
-                <label for="brand" class="block text-gray-700 font-bold mb-2">Brand:</label>
-                <input type="text" id="brand" name="brand" class="form-input">
-            </div>
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 font-bold mb-2">Name:</label>
+                        <input type="text" id="name" name="name" class="form-input w-full border border-gray-300" required>
+                    </div>
 
-            <div class="mb-4">
-                <label for="category" class="block text-gray-700 font-bold mb-2">Category:</label>
-                <input type="text" id="category" name="category" class="form-input">
-            </div>
+                    <div class="mb-4">
+                        <label for="brand" class="block text-gray-700 font-bold mb-2">Brand:</label>
+                        <input type="text" id="brand" name="brand" class="form-input w-full border border-gray-300" required>
+                    </div>
 
-            <div class="mb-4">
-                <label for="sizes" class="block text-gray-700 font-bold mb-2">Sizes:</label>
-                <input type="text" id="sizes" name="sizes" class="form-input">
-            </div>
+                    <div class="mb-4">
+                        <label for="category" class="block text-gray-700 font-bold mb-2">Category:</label>
+                        <input type="text" id="category" name="category" class="form-input w-full border border-gray-300" required>
+                    </div>
 
-            <div class="mb-4">
-                <label for="colors" class="block text-gray-700 font-bold mb-2">Colors:</label>
-                <input type="text" id="colors" name="colors" class="form-input">
-            </div>
+                    <div class="mb-4">
+                        <label for="sizes" class="block text-gray-700 font-bold mb-2">Sizes:</label>
+                        <input type="text" id="sizes" name="sizes" class="form-input w-full border border-gray-300">
+                    </div>
 
-            <div class="mb-4">
-                <label for="imgs" class="block text-gray-700 font-bold mb-2">Images:</label>
-                <input type="text" id="imgs" name="imgs" class="form-input">
-            </div>
+                    <div class="mb-4">
+                        <label for="colors" class="block text-gray-700 font-bold mb-2">Colors:</label>
+                        <input type="text" id="colors" name="colors" class="form-input w-full border border-gray-300">
+                    </div>
 
-            <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Create Product
-                </button>
-            </div>
-        </form>
+                    <div class="mb-4">
+                        <label for="imgs" class="block text-gray-700 font-bold mb-2">Images:</label>
+                        <input type="text" id="imgs" name="imgs" class="form-input w-full border border-gray-300">
+                    </div>
+                </fieldset>
+
+                <div class="flex justify-end mt-6">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Create Product
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 

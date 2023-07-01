@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
 
-    const handleSearch = (term) => {
+  const handleSearch = (term) => {
     setSearchTerm(term);
     console.log(searchTerm);
   };
@@ -28,15 +28,15 @@ export default function Navbar() {
     let mega = document.querySelector('.mega--menu');
     mega.style.display = "none";
   }
-  function handle(){
-    cobsole.log('handle');
+  function handle() {
+    console.log('handle');
   }
 
   return (
     <>
       <header>
         <div class=" py-2 px-4 flex flex-wrap justify-between items-center">
-            <h1 class=" text-white m-2 md:m-0 text-2xl font-semibold">SNEAKEET</h1>
+          <h1 class=" text-white m-2 md:m-0 text-2xl font-semibold">SNEAKEET</h1>
           <SearchBar onSearch={handleSearch} />
         </div>
         <nav>
