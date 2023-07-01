@@ -1,21 +1,21 @@
 import React from 'react';
+import { GiRobotHelmet } from 'react-icons/gi';
 
 const Footer = () => {
   return (
-    <footer className=" bg-gray-800">
-      <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          <div className="text-gray-400">
-            {/* Your business name or logo */}
-            <span className="text-white font-bold text-2xl">Sneakeet</span>
-          </div>
-          <div className="text-gray-400">
-            <p className="text-sm">
-              &copy; {new Date().getFullYear()} Sneakeet. All rights reserved.
-            </p>
-            <p className="text-sm">
-              <a href="/privacy" className="text-gray-400 hover:text-white">Privacy Policy</a> | <a href="/terms" className="text-gray-400 hover:text-white">Terms of Service</a>
-            </p>
+    <footer className="bg-gray-900 text-white">
+      <div className="container mx-auto py-4 px-6 flex flex-col sm:flex-row justify-between items-center">
+        <div className="flex items-center">
+          <span className="text-4xl text-blue-500 mr-2">
+            <GiRobotHelmet />
+          </span>
+          <h1 className="text-2xl font-bold">Sneakeet</h1>
+        </div>
+        <div className="text-sm mt-4 sm:mt-0">
+          <p className="mb-2">&copy; {new Date().getFullYear()} Sneakeet. All rights reserved.</p>
+          <div className="flex flex-wrap">
+            <a href="/privacy" className="text-gray-400 hover:text-white mr-4">Privacy Policy</a>
+            <a href="/terms" className="text-gray-400 hover:text-white">Terms of Service</a>
           </div>
         </div>
       </div>
