@@ -24,25 +24,35 @@ const Banner = () => {
                 modules={[Autoplay, Pagination, Navigation]}
                 style={{
                     width: `100%`,
-                    height: `90vh`,
+                    height: `50vh`,
+                    marginTop: `80px`,
                 }}
             >
                 <SwiperSlide>
-                    <div className=" w-full grid h-full place-items-center bg-emerald-600">
-                        <img src={require('../assets/shop/1st_shoe.jpg')}
-                          className="w-full h-fit"/>
+                    <div className="w-full grid h-full place-items-center bg-emerald-600">
+                        <img
+                            src={require('../assets/shop/1st_shoe.jpg')}
+                            className="w-full h-fit"
+                            alt="Banner 1"
+                        />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                <div className=" w-full grid h-full place-items-center bg-emerald-600">
-                        <img src={require('../assets/shop/2nd_shoe.jpg')}
-                          className="w-full h-fit"/>
+                    <div className="w-full grid h-full place-items-center bg-emerald-600">
+                        <img
+                            src={require('../assets/shop/2nd_shoe.jpg')}
+                            className="w-full h-fit"
+                            alt="Banner 2"
+                        />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                <div className=" w-full grid h-full place-items-center bg-emerald-600">
-                        <img src={require('../assets/shop/1st_shoe.jpg')}
-                          className="w-full h-fit"/>
+                    <div className="w-full grid h-full place-items-center bg-emerald-600">
+                        <img
+                            src={require('../assets/shop/1st_shoe.jpg')}
+                            className="w-full h-fit"
+                            alt="Banner 3"
+                        />
                     </div>
                 </SwiperSlide>
             </Swiper>

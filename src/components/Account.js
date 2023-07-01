@@ -45,7 +45,7 @@ function Account() {
       exit={{ y: "100px" }}
       transition={{ duration: 1 }}
     >
-      <section className="container p-2 relative block w-screen h-max min-h-screen">
+      <section className="container p-2 relative block w-screen h-max min-h-screen mt-20">
         <div className="p-1">
           <div className="flex w-full justify-between p-1 items-center mb-2">
             <h1>Sneakeet Account</h1>

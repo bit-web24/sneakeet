@@ -1,84 +1,56 @@
-import React, { useState } from "react";
-import { MegaMenu } from "primereact/megamenu";
-import SearchBar from "./Navbar/SearchBar";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { FaHeart, FaShoppingCart, FaUser } from 'react-icons/fa';
+import SearchBar from './Navbar/SearchBar';
+import { Link } from 'react-router-dom';
 
-export default function Navbar() {
-  const [searchTerm, setSearchTerm] = useState("");
+const Navbar = () => {
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = (term) => {
     setSearchTerm(term);
     console.log(searchTerm);
   };
 
-  function handleNav() {
-    let box = document.querySelector('.box');
-    box.classList.contains('active') ?
-      box.classList.remove('active')
-      :
-      box.classList.add('active');
-  }
-  function MegaClick() {
-    let mega = document.querySelector('.mega--menu');
-    mega.classList.contains('active') ?
-      mega.classList.remove('active')
-      : mega.classList.add('active');
-  }
-  function Car() {
-    let mega = document.querySelector('.mega--menu');
-    mega.style.display = "none";
-  }
-  function handle() {
-    console.log('handle');
-  }
-
   return (
-    <>
-      <header>
-        <div class=" py-2 px-4 flex flex-wrap justify-between items-center">
-          <h1 class=" text-white m-2 md:m-0 text-2xl font-semibold">SNEAKEET</h1>
-          <SearchBar onSearch={handleSearch} />
+    <nav className="fixed top-0 left-0 z-10 w-full bg-white border-b-2 border-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex-shrink-0 flex items-center absolute left-20">
+            {/* Logo */}
+             <Link to={'/'}><h1 className="text-3xl font-bold">Sneakeet</h1></Link>
+          </div>
+          {/* Search Bar */}
+          <div className="flex-grow ml-18">
+            <SearchBar onSearch={handleSearch} />
+          </div>
+          {/* Navigation Icons */}
+          <div className="flex items-center space-x-10 font-bold absolute right-16">
+            <a
+              href="/favorites"
+              className="flex items-center text-gray-800 hover:text-gray-600 transition-colors duration-300"
+            >
+              <FaHeart className="text-2xl" style={{color: "red"}}/>
+              <Link to={'/favorites'}><span className="ml-2 text-base">Favorites</span></Link>
+            </a>
+            <a
+              href="/cart"
+              className="flex items-center text-gray-800 hover:text-gray-600 transition-colors duration-300"
+            >
+              <FaShoppingCart className="text-2xl" />
+              <Link to={'/cart'}> <span className="ml-2 text-base">Cart</span> </Link>
+            </a>
+            <a
+              href="/profile"
+              className="flex items-center text-gray-800 hover:text-gray-600 transition-colors duration-300"
+            >
+              <FaUser className="text-2xl" />
+              <Link to={'/account'}><span className="ml-2 text-base">Profile</span></Link>
+            </a>
+          </div>
         </div>
-        <nav>
-          <ul>
-            <li>
-              <Link to={"/"}>Home</Link>
-            </li>
-            <li>
-              <a href="#">Service</a>
-              <ul class="box">
-                <img src="./product-3.jpeg" alt="shoes" />
-                <li>Home - 2</li>
-                <li>Home - 3</li>
-                <img src="./product-3.jpeg" alt="shoes" />
-                <li>Home - 5</li>
-                <li>Home - 6</li>
-                <li>Home - 7</li>
-                <li>Home - 8</li>
-                <li>Home - 9</li>
-              </ul>
-            </li>
-            <li>
-              <a href="#">Products</a>
-              <ul class="box">
-                <li>Home - 1</li>
-                <li>Home - 2</li>
-                <li>Home - 3</li>
-                <li>Home - 3</li>
-              </ul>
-            </li>
-            <li>
-              <Link to={`/cart`}>Cart</Link>
-            </li>
-            <li>
-              <Link to={`/signup`}>Signup</Link>
-            </li>
-            <li>
-              <Link to={`/account`}>Profile</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-    </>
+      </div>
+    </nav>
   );
-}
+};
+
+export default Navbar;
