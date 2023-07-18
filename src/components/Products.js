@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import product1Image from "../assets/images/nike.png";
 import Banner from './Banner';
-import { FiShoppingCart, FiHeart } from 'react-icons/fi';
+import { FiShoppingCart, FiStar, FiCheckCircle } from 'react-icons/fi';
 
 const Products = () => {
   // Dummy product data for demonstration purposes
@@ -10,7 +10,7 @@ const Products = () => {
   for (let i = 0; i < 8; i++) {
     products.push({
       id: i,
-      name: "Product 1",
+      name: "Product " + i,
       price: 29.99,
       category: "Men's Shoes",
       colors: ["Red", "Black", "White"],
@@ -18,9 +18,28 @@ const Products = () => {
     });
   }
 
+  const initialCartStatus = {};
+  const initialFavoriteStatus = {};
+  for (let i = 0; i < 8; i++) {
+    initialCartStatus[i] = false;
+    initialFavoriteStatus[i] = false;
+  }
+
+  const [cartStatus, setCartStatus] = useState(initialCartStatus);
+  const [favoriteStatus, setFavoriteStatus] = useState(initialFavoriteStatus);
+
   const addToFavorites = (productId) => {
-    // Implement your logic to add the product to favorites
-    console.log(`Added product ${productId} to favorites`);
+    setFavoriteStatus((prevFavoriteStatus) => ({
+      ...prevFavoriteStatus,
+      [productId]: !prevFavoriteStatus[productId],
+    }));
+  };
+
+  const addToCart = (productId) => {
+    // Implement your logic to add the product to the cart
+    console.log(`Added product ${productId} to cart`);
+    // Update the cart status for the clicked product to true
+    setCartStatus((prevCartStatus) => ({ ...prevCartStatus, [productId]: true }));
   };
 
   return (
@@ -29,56 +48,58 @@ const Products = () => {
       <div className="container min-h-screen mx-auto py-6 flex justify-center">
         <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 max-w-7xl">
           {products.map((product) => (
-            <Link key={product.id} to={`/products/${product.id}`} className="col-span-1">
+            <div key={product.id} className="col-span-1">
               <div className="bg-white p-4 rounded-md border-black border-2 relative">
-                <div
-                  className="aspect-w-535 aspect-h-668 overflow-hidden"
-                  style={{ maxWidth: '350px', maxHeight: '350px' }}
-                >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="object-cover w-full h-full"
-                    style={{
-                      width: '400px',
-                      height: '300px',
-                      borderRadius: '10px'
-                    }}
-                  />
-                  <button
-                    className="text-pink-500 text-2xl font-bold absolute"
-                    onClick={() => addToFavorites(product.id)}
-                    style={{
-                      top: '30px',
-                      left: '30px'
-                    }}
+                <Link to={`/products/${product.id}`}>
+                  <div
+                    className="aspect-w-535 aspect-h-668 overflow-hidden"
+                    style={{ maxWidth: '350px', maxHeight: '350px' }}
                   >
-                    <FiHeart size={40}/>
-                  </button>
-                </div>
-                <h3 className="text-gray-800 font-semibold text-sm mt-2">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="object-cover w-full h-full rounded-md"
+                    />
+                  </div>
+                </Link>
+                  <div className={`p-2 rounded-full bg-white border-black border-2 text-3xl font-bold absolute top-4 left-4 ${
+                    favoriteStatus[product.id] ? "bg-white" : "bg-transparent"
+                  }`} onClick={() => addToFavorites(product.id)}>
+                    <FiStar
+                      size={40}
+                      color={favoriteStatus[product.id] ? "#FFD700" : undefined}
+                      stroke={favoriteStatus[product.id] ? "#000000" : "#D1D5DB"}
+                      fill={favoriteStatus[product.id] ? "#FFD700" : "none"}
+                      strokeWidth={2}
+                    />
+                  </div>
+                <h3 className="text-gray-800 font-semibold text-lg mt-2 text-center">
                   {product.name}
                 </h3>
-                <p className="text-gray-600 text-xs mb-2">{product.category}</p>
+                <p className="text-gray-600 text-base mb-2">{product.category}</p>
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-gray-600 text-xs">
-                      Colors: {product.colors.join(", ")}
-                    </p>
-                    <p className="text-gray-600 text-xs">Price: ${product.price}</p>
+                    <p className="text-gray-600 text-xl">Price: <span className="text-green-500 font-bold">₹ {product.price}</span></p>
                   </div>
                   <div>
-                    <button
-                      className="flex items-center px-3 py-2 text-white bg-sky-700 rounded-md"
-                      onClick={() => addToFavorites(product.id)}
-                    >
-                      <FiShoppingCart className="mr-2" />
-                      Add to Cart
-                    </button>
+                    {cartStatus[product.id] ? (
+                      <button className="flex items-center px-3 py-2 text-white bg-green-500 rounded-md">
+                        <FiCheckCircle className="mr-2" />
+                        Added
+                      </button>
+                    ) : (
+                      <button
+                        className="flex items-center px-3 py-2 text-white bg-black rounded-md hover:bg-gray-900"
+                        onClick={() => addToCart(product.id)}
+                      >
+                        <FiShoppingCart className="mr-2" />
+                        Add to Cart
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
