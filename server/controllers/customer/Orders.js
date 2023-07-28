@@ -1,4 +1,11 @@
 const Customer = require('../../models/Customer');
+const pino = require('pino');
+
+// const logger = pino({
+//     prettyPrint: true,
+//     level: 'info',
+//     useLevelLabels: true, // Display log level names (INFO, WARN, etc.) instead of numbers
+//   });  
 
 const Orders = {
     getAllItems: async (req, res) => {
@@ -12,7 +19,7 @@ const Orders = {
 
             const orders = customer.orders;
 
-            res.status(200).json({ orders });
+            res.status(200).json({ message: 'Fetching all orders', orders });
         } catch (error) {
             res.status(500).json({ message: 'Internal server error' });
         }
@@ -40,19 +47,32 @@ const Orders = {
 
     addItem: async (req, res) => {
         try {
-            const { customerId } = req.params;
-            const { item } = req.body;
+            const customerId = req.params._id;
+            const item = req.body.PRODUCT_ID;
+
+            console.log("CustomerId: ", customerId, "PRODUCT_ID: ", item);
 
             const customer = await Customer.findById(customerId);
+            console.log(customer);
+
             if (!customer) {
                 return res.status(404).json({ message: 'Customer not found' });
             }
 
-            customer.orders.push(item);
+            // Create a new order object based on the orderSchema
+            const newOrder = {
+                orderNumber: 'ORD-001',
+                products: item,
+                totalAmount: 150.00,
+            };
 
+            // Push the new order to the customer's orders array
+            customer.orders.push(newOrder);
+
+            // Save the updated customer object to the database
             await customer.save();
 
-            res.status(200).json({ message: 'Item added to orders', orders: customer.orders });
+            res.status(201).json({ message: 'Order created successfully', orders: customer.orders });
         } catch (error) {
             res.status(500).json({ message: 'Internal server error' });
         }

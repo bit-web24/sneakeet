@@ -3,21 +3,32 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+const pino = require('pino');
+
+const logger = pino({
+    level: 'info',
+    useLevelLabels: true, // Display log level names (INFO, WARN, etc.) instead of numbers
+});
+
 const secretKey = process.env.SECRET_KEY;
 
 // Register a new Customer
 const signup = async (req, res) => {
     try {
         const { email, password } = req.body;
+        logger.info(`Credentials: { email: ${email}, password: ${password}}`);
 
         // Check if the email already exists
         const existingUser = await Customer.findOne({ email }).maxTimeMS(2000);
+        logger.trace(`User Already Exists: ${existingUser}`);
+
         if (existingUser) {
             return res.status(409).json({ message: 'Email already exists.' });
         }
 
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
+        logger.info(`Hashed Password: ${hashedPassword}`);
 
         // Create a new Customer
         const newUser = new Customer({
@@ -26,12 +37,13 @@ const signup = async (req, res) => {
         });
 
         // Save the Customer to the database
-        await newUser.save({ maxTimeMS: 20000 });
+        const saveMsg = await newUser.save({ maxTimeMS: 20000 });
+        logger.info(`Saved Data: ${saveMsg}`);
 
         // Respond with success message
         res.status(201).json({ message: 'Customer registered successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: error });
     }
 };
 

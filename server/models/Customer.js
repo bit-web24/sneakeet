@@ -9,6 +9,26 @@ mongoose.connect(process.env.ATLAS_KEY, {
     useUnifiedTopology: true,
 });
 
+const orderSchema = new mongoose.Schema({
+    orderNumber: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    products: {
+        type: String,
+        required: true,
+    },
+    totalAmount: {
+        type: Number,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
 const customerSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -28,11 +48,11 @@ const customerSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true,
+        required: false,
     },
     address: {
         type: String,
-        required: true,
+        required: false,
     },
     createdAt: {
         type: Date,
@@ -42,6 +62,7 @@ const customerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    orders: [orderSchema], // Reference the order schema to include orders for each customer
 });
 
 const Customer = mongoose.model('Customer', customerSchema);

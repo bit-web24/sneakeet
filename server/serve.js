@@ -10,32 +10,26 @@ const admin = require('./routes/admin');
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 
-async function startServer() {
-  try {
-    // Database Connection
-    const client = await connectToDB();
+// Database Connection
+connectToDB();
 
-    // Set template engine
-    app.set('view engine', 'ejs');
-    app.set('views', path.join(__dirname, 'views'));
+// Set template engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-    // Middleware
-    app.use(bodyParser.json());
-    app.use(cookieParser());
+// Middleware
+app.use(bodyParser.json());
+app.use(cookieParser());
 
-    // Routes
-    app.use('/api', router);
-    app.use('/admin', admin);
+// Routes
+app.use('/api', router);
+app.use('/admin', admin);
 
-    // Start the server
-    return app.listen(port, () => {
-      console.log(`Server running on port: ${port}`);
-    });
-  } catch (error) {
-    console.error(error);
-  }
-}
+// Start the server
+const server = app.listen(port, () => {
+  console.log(`Server running on port: ${port}`);
+});
 
-module.exports = startServer();
+module.exports = server;
