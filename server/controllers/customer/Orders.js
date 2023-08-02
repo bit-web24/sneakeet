@@ -10,7 +10,7 @@ const pino = require('pino');
 const Orders = {
     getAllItems: async (req, res) => {
         try {
-            const { customerId } = req.params;
+            const customerId = req.params._id;
 
             const customer = await Customer.findById(customerId);
             if (!customer) {
@@ -19,15 +19,17 @@ const Orders = {
 
             const orders = customer.orders;
 
-            res.status(200).json({ message: 'Fetching all orders', orders });
+            res.status(200).json({ message: 'Found orders', orders });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ message: 'Internal server error' });
         }
     },
 
     getItemById: async (req, res) => {
         try {
-            const { customerId, orderId } = req.params;
+            const customerId = req.params._id;
+            const orderId = req.params.order_id;
 
             const customer = await Customer.findById(customerId);
             if (!customer) {
@@ -41,6 +43,7 @@ const Orders = {
 
             res.status(200).json({ order });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ message: 'Internal server error' });
         }
     },
@@ -62,8 +65,8 @@ const Orders = {
             // Create a new order object based on the orderSchema
             const newOrder = {
                 orderNumber: 'ORD-001',
-                products: item,
-                totalAmount: 150.00,
+                product: item,
+                price: 150.00,
             };
 
             // Push the new order to the customer's orders array
@@ -74,13 +77,15 @@ const Orders = {
 
             res.status(201).json({ message: 'Order created successfully', orders: customer.orders });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ message: 'Internal server error' });
         }
     },
 
     removeItem: async (req, res) => {
         try {
-            const { customerId, orderId } = req.params;
+            const customerId = req.params._id;
+            const orderId = req.params.order_id;
 
             const customer = await Customer.findById(customerId);
             if (!customer) {
@@ -92,15 +97,21 @@ const Orders = {
                 return res.status(404).json({ message: 'Order not found' });
             }
 
-            order.remove();
+            // Remove the item from the order
+            const itemIndex = customer.orders.indexOf(order);
+            if (itemIndex > -1) {
+                customer.orders.splice(itemIndex, 1);
+            }
 
             await customer.save();
 
             res.status(200).json({ message: 'Item removed from orders', orders: customer.orders });
         } catch (error) {
+            console.error(error); // Log the error for debugging purposes
             res.status(500).json({ message: 'Internal server error' });
         }
     }
+
 };
 
 module.exports = Orders;

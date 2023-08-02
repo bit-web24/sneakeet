@@ -96,20 +96,22 @@ describe('Customer Routes Test', function () {
       });
   });
 
-  // // Test case for getting all orders
-  // it('should get all orders', function (done) {
-  //   request(app)
-  //     .get(`/api/v1/account/${CUSTOMER_ID}/orders`)
-  //     .expect('Content-Type', /json/)
-  //     .expect(200)
-  //     .end((err, res) => {
-  //       if (err) return done(err);
+  // Test case for getting all orders
+  it('should get all orders', function (done) {
+    request(app)
+      .get(`/api/v1/account/${CUSTOMER_ID}/orders`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+        if (err) return done(err);
 
-  //       assert.strictEqual(res.body.message, 'Fetching all orders');
-  //       assert.ok(res.body.orders);
-  //       done();
-  //     });
-  // });
+        assert.strict(res.body.message, 'Found orders');
+        assert.ok(res.body.orders);
+
+        console.log(res.body.orders);
+        done();
+      });
+  });
 
   // Test case for deleting Customer Account
   it('should delete customer', function (done) {

@@ -20,9 +20,9 @@ const signup = async (req, res) => {
 
         // Check if the email already exists
         const existingUser = await Customer.findOne({ email }).maxTimeMS(2000);
-        logger.trace(`User Already Exists: ${existingUser}`);
 
         if (existingUser) {
+            logger.info(`User Already Exists: ${existingUser}`);
             return res.status(409).json({ message: 'Email already exists.' });
         }
 

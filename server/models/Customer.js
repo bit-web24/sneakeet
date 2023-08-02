@@ -15,13 +15,25 @@ const orderSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    products: {
+    product: {
         type: String,
         required: true,
     },
-    totalAmount: {
+    price: {
         type: Number,
         required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
+const favoriteSchema = new mongoose.Schema({
+    favoriteProduct: {
+        type: String,
+        required: true,
+        unique: true,
     },
     createdAt: {
         type: Date,
@@ -62,7 +74,8 @@ const customerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    orders: [orderSchema], // Reference the order schema to include orders for each customer
+    orders: [orderSchema],
+    favorites: [favoriteSchema]
 });
 
 const Customer = mongoose.model('Customer', customerSchema);

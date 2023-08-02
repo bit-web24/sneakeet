@@ -3,7 +3,7 @@ const Customer = require('../../models/Customer');
 const Favorites = {
     getAllItems: async (req, res) => {
         try {
-            const { customerId } = req.params;
+            const customerId = req.params._id;
 
             const customer = await Customer.findById(customerId);
             if (!customer) {
@@ -20,7 +20,8 @@ const Favorites = {
 
     getItemById: async (req, res) => {
         try {
-            const { customerId, productId } = req.params;
+            const customerId = req.params._id;
+            const productId = req.params.favorite_id;
 
             const customer = await Customer.findById(customerId);
             if (!customer) {
@@ -40,15 +41,17 @@ const Favorites = {
 
     addItem: async (req, res) => {
         try {
-            const { customerId } = req.params;
-            const { item } = req.body;
+            const customerId = req.params._id;
+            const productId  = req.body.PRODUCT_ID;
 
             const customer = await Customer.findById(customerId);
             if (!customer) {
                 return res.status(404).json({ message: 'Customer not found' });
             }
 
-            customer.favorites.push(item);
+            customer.favorites.push({
+                favoriteProduct: productId
+            });
 
             await customer.save();
 
@@ -60,7 +63,8 @@ const Favorites = {
 
     removeItem: async (req, res) => {
         try {
-            const { customerId, productId } = req.params;
+            const customerId = req.params._id;
+            const productId = req.params.favorite_id;
 
             const customer = await Customer.findById(customerId);
             if (!customer) {
@@ -72,7 +76,11 @@ const Favorites = {
                 return res.status(404).json({ message: 'Favorite not found' });
             }
 
-            favorite.remove();
+            // Remove the item from the order
+            const itemIndex = customer.favorites.indexOf(favorite);
+            if (itemIndex > -1) {
+                customer.favorites.splice(itemIndex, 1);
+            }
 
             await customer.save();
 
