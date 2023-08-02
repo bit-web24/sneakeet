@@ -71,7 +71,7 @@ const login = async (req, res) => {
         res.cookie('token', token, { httpOnly: true });
 
         // Respond with the token
-        res.status(200).json({ message: 'Login successful', customer });
+        res.status(200).json({ token, message: 'Login successful', customer });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error.' });
     }

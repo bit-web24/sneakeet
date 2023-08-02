@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const connectToDB = require('./database/db');
 const path = require('path');
+const cors = require('cors');
 
 const router = require('./routes/routes');
 const admin = require('./routes/admin');
@@ -20,7 +21,10 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Middleware
+app.use(express.json());
+app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}))
 app.use(cookieParser());
 
 // Routes
