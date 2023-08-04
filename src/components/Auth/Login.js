@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import Message from './Message';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [registrationStatus, setRegistrationStatus] = useState('');
+  const [statusMsg, setStatusMsg] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,19 +20,30 @@ const Login = () => {
     };
 
     try {
-      // Send the POST request
       const response = await axios.post("http://localhost:4000/api/v1/login", data);
-      document.cookie = `token=${response.data.token}; path=/;`;
-      console.log(response.data.token);
-      console.log(response.data); // Use response.data instead of response.json()
+      if (response.status == 200) {
+        document.cookie = `token=${response.data.token}; path=/;`;
+        setRegistrationStatus('success');
+        setStatusMsg('Logged in Succesfully');
+        setTimeout(() => {
+          setRegistrationStatus('');
+          setStatusMsg('');
+        }, 3000);
+        window.location.href = '/';
+      }
     } catch (error) {
-      // Handle error during registration.
-      console.error('Error during Login:', error);
+      setRegistrationStatus('error');
+      setStatusMsg('Invalid Credentials');
+      setTimeout(() => {
+        setRegistrationStatus('');
+        setStatusMsg('');
+      }, 3000);
     }
   };
 
   return (
     <>
+      {registrationStatus && <Message type={registrationStatus} text={statusMsg} />}
       <div className="flex justify-center items-center h-screen bg-gray-100">
         <div className="max-w-md w-full mx-auto p-8 bg-white rounded-md shadow-md">
           <h2 className="text-3xl font-semibold text-gray-800 mb-6">Login</h2>
@@ -44,7 +58,7 @@ const Login = () => {
                 type="email"
                 placeholder="Enter your email"
                 value={email}
-              onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mb-4">
@@ -57,7 +71,7 @@ const Login = () => {
                 type="password"
                 placeholder="Enter your password"
                 value={password}
-              onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button

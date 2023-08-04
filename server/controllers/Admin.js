@@ -6,7 +6,7 @@ const displayAllProducts = async (req, res) => {
 
     res.render('products', { products });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ error });
   }
 };
 
@@ -16,7 +16,12 @@ const displayCreateProductForm = (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, brand, category, sizes, colors, imgs } = req.body.product;
+    const name = req.body.product.name;
+    const brand = req.body.product.brand;
+    const category = req.body.product.category;
+    const sizes = req.body.product.sizes;
+    const colors = req.body.product.colors;
+    const imgs = req.body.product.imgs;
 
     const newProduct = new Product({
       name,
@@ -31,7 +36,7 @@ const createProduct = async (req, res) => {
 
     res.status(201).json({ message: 'Product created successfully', product: newProduct });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ error });
   }
 };
 
@@ -61,7 +66,7 @@ const displayEditProductForm = async (req, res) => {
 
     res.render('edit-product', { product });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({error});
   }
 };
 
@@ -85,8 +90,9 @@ const updateProduct = async (req, res) => {
     await product.save();
 
     res.redirect('products' + productId);
+    // res.status(200).json({message: 'Product Updated Successfully'});
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ error });
   }
 };
 
@@ -98,7 +104,7 @@ const deleteProduct = async (req, res) => {
 
     res.redirect('products');
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ error });
   }
 };
 

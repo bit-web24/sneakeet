@@ -6,31 +6,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
   <title>Edit Product</title>
+  <style>
+    body {
+      background-color: #f1f5f9;
+    }
+
+    .container {
+      max-width: 1200px;
+    }
+
+    .admin-table {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-table th {
+      background-color: #374151;
+      color: #f9fafb;
+      font-size: 18px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    .admin-table tbody tr:nth-child(even) {
+      background-color: #edf2f7;
+    }
+
+    .admin-table a {
+      text-decoration: none;
+      color: #3182ce;
+    }
+
+    .admin-table a:hover {
+      text-decoration: underline;
+    }
+
+    .admin-table .btn {
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .admin-table .btn-primary {
+      background-color: #4a86e8;
+      color: #f9fafb;
+    }
+
+    .admin-table .btn-primary:hover {
+      background-color: #2b6cb0;
+    }
+
+    .admin-table .btn-warning {
+      background-color: #f59e0b;
+      color: #f9fafb;
+    }
+
+    .admin-table .btn-warning:hover {
+      background-color: #d97706;
+    }
+  </style>
 </head>
 
 <body>
   <div class="container mx-auto py-8">
-    <h1 class="text-2xl font-bold mb-4">All Products</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <% products.forEach((product)=> { %>
-        <div class="bg-white rounded-lg shadow-md p-4">
-          <h2 class="text-lg font-bold mb-2">
-            <%= product.name %>
-          </h2>
-          <p><strong>Brand:</strong>
-            <%= product.brand %>
-          </p>
-          <p><strong>Category:</strong>
-            <%= product.category.join(', ') %></p>
-        <p><strong>Sizes:</strong> <%= product.sizes.join(' , ') %></p>
-        <p><strong>Colors:</strong> <%= product.colors.join(' , ') %></p>
-        <div class="flex justify-between items-center mt-4">
-          <a href="/products/<%= product._id %>" class="text-blue-500 hover:underline">View Details</a>
-          <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Add to Cart</button>
-        </div>
-      </div>
-    <% }) %>
+    <h1 class="text-3xl font-bold mb-4">All Products</h1>
+    <div class="overflow-x-auto admin-table">
+      <table class="table-auto w-full bg-white rounded-lg">
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Name</th>
+            <th class="px-4 py-2">Brand</th>
+            <th class="px-4 py-2">Category</th>
+            <th class="px-4 py-2">Sizes</th>
+            <th class="px-4 py-2">Colors</th>
+            <th class="px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% products.forEach((product)=> { %>
+            <tr>
+              <td class="px-4 py-2"><%= product.name %></td>
+              <td class="px-4 py-2"><%= product.brand %></td>
+              <td class="px-4 py-2"><%= product.category.join(', ') %></td>
+              <td class="px-4 py-2"><%= product.sizes.join(', ') %></td>
+              <td class="px-4 py-2"><%= product.colors.join(', ') %></td>
+              <td class="px-4 py-2 flex items-center space-x-2">
+                <a href="/products/<%= product._id %>" class="btn btn-primary">View Details</a>
+                <a href="/products/<%= product._id %>/edit" class="btn btn-warning">Edit</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 </body>
+
 </html>

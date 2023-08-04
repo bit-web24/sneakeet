@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 import axios from 'axios';
+import Message from './Message';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [registrationStatus, setRegistrationStatus] = useState('');
+  const [statusMsg, setStatusMsg] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(email, password);
 
     const data = {
       email: email,
@@ -19,9 +20,22 @@ const Signup = () => {
     try {
       // Send the POST request
       const response = await axios.post("http://localhost:4000/api/v1/signup", data);
-      console.log(response); // Use response.data instead of response.json()
+      if (response.status == 201) {
+        setRegistrationStatus('success');
+        setStatusMsg(response.message);
+        setTimeout(() => {
+          setRegistrationStatus('');
+        }, 3000);
+        window.location.href = '/login';
+      }
+
     } catch (error) {
-      // Handle error during registration.
+      setRegistrationStatus('error');
+      setStatusMsg('User already exist with the Email-id');
+      setTimeout(() => {
+        setRegistrationStatus('');
+        setStatusMsg('');
+      }, 3000);
       console.error('Error during signup:', error);
     }
   };
@@ -41,6 +55,7 @@ const Signup = () => {
         exit={{ y: "100px" }}
         transition={{ duration: 1 }}
         className="max-w-md w-full mx-auto p-8 bg-white rounded-md shadow-md">
+        {registrationStatus && <Message type={registrationStatus} text={statusMsg} />}
         <h2 className="text-3xl font-semibold text-gray-800 mb-6">Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
