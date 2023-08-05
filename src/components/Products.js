@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import product1Image from "../assets/images/nike.png";
 import Banner from './Banner';
 import { FiShoppingCart, FiStar, FiCheckCircle } from 'react-icons/fi';
+import axios from "axios";
+
+const BASE_API_URL='http://localhost:4000/api/';
 
 const Products = () => {
   // Dummy product data for demonstration purposes
@@ -35,9 +38,17 @@ const Products = () => {
     }));
   };
 
-  const addToCart = (productId) => {
-    // Implement your logic to add the product to the cart
-    console.log(`Added product ${productId} to cart`);
+  const addToCart = async (productId) => {
+    const data = {
+      PRODUCT_ID: productId,
+      quantity: 1
+    };
+
+    const response = await axios.post(`${BASE_API_URL}/cart`, data);
+    if (response.status === 200){
+
+    }
+
     // Update the cart status for the clicked product to true
     setCartStatus((prevCartStatus) => ({ ...prevCartStatus, [productId]: true }));
   };

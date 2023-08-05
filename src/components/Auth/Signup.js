@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import Message from './Message';
+import Message from '../Message';
+
+const BASE_API_URL='http://localhost:4000/api/';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +21,7 @@ const Signup = () => {
 
     try {
       // Send the POST request
-      const response = await axios.post("http://localhost:4000/api/v1/signup", data);
+      const response = await axios.post(`${BASE_API_URL}/signup`, data);
       if (response.status == 201) {
         setRegistrationStatus('success');
         setStatusMsg(response.message);

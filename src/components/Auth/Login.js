@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import Message from './Message';
+import Message from '../Message';
+
+const BASE_API_URL='http://localhost:4000/api/';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -20,7 +22,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:4000/api/v1/login", data);
+      const response = await axios.post(`${BASE_API_URL}/login`, data);
       if (response.status == 200) {
         document.cookie = `token=${response.data.token}; path=/;`;
         setRegistrationStatus('success');
@@ -28,7 +30,7 @@ const Login = () => {
         setTimeout(() => {
           setRegistrationStatus('');
           setStatusMsg('');
-        }, 3000);
+        }, 5000);
         window.location.href = '/';
       }
     } catch (error) {
@@ -37,7 +39,7 @@ const Login = () => {
       setTimeout(() => {
         setRegistrationStatus('');
         setStatusMsg('');
-      }, 3000);
+      }, 5000);
     }
   };
 
