@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import { AnimatePresence } from "framer-motion";
 
 import './index.css'

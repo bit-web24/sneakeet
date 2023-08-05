@@ -4,8 +4,9 @@ import product1Image from "../assets/images/nike.png";
 import Banner from './Banner';
 import { FiShoppingCart, FiStar, FiCheckCircle } from 'react-icons/fi';
 import axios from "axios";
+import jwt from "jwt-decode";
 
-const BASE_API_URL='http://localhost:4000/api/';
+const BASE_API_URL = 'http://localhost:4000/api';
 
 const Products = () => {
   // Dummy product data for demonstration purposes
@@ -39,19 +40,38 @@ const Products = () => {
   };
 
   const addToCart = async (productId) => {
+    let _id = null;
+    let token = document.cookie;    
+    token = token.startsWith('token=') ? token.slice(6) : token;
+
+    try {
+      const decodedToken = jwt(token);
+      if (decodedToken && decodedToken.userId) {
+        _id = decodedToken.userId;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
     const data = {
       PRODUCT_ID: productId,
       quantity: 1
     };
 
-    const response = await axios.post(`${BASE_API_URL}/cart`, data);
-    if (response.status === 200){
-
+    try {
+      const response = await axios.post(`${BASE_API_URL}/account/${_id}/cart`, data, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        setCartStatus((prevCartStatus) => ({ ...prevCartStatus, [productId]: true }));
+      } else {
+        console.error('Failed to add product to cart:', response.data);
+      }
+    } catch (error) {
+      console.error('Failed to add product to cart:', error);
     }
-
-    // Update the cart status for the clicked product to true
-    setCartStatus((prevCartStatus) => ({ ...prevCartStatus, [productId]: true }));
   };
+
 
   return (
     <>
@@ -73,17 +93,16 @@ const Products = () => {
                     />
                   </div>
                 </Link>
-                  <div className={`p-2 rounded-full bg-white border-black border-2 text-3xl font-bold absolute top-4 left-4 ${
-                    favoriteStatus[product.id] ? "bg-white" : "bg-transparent"
+                <div className={`p-2 rounded-full bg-white border-black border-2 text-3xl font-bold absolute top-4 left-4 ${favoriteStatus[product.id] ? "bg-white" : "bg-transparent"
                   }`} onClick={() => addToFavorites(product.id)}>
-                    <FiStar
-                      size={40}
-                      color={favoriteStatus[product.id] ? "#FFD700" : undefined}
-                      stroke={favoriteStatus[product.id] ? "#000000" : "#D1D5DB"}
-                      fill={favoriteStatus[product.id] ? "#FFD700" : "none"}
-                      strokeWidth={2}
-                    />
-                  </div>
+                  <FiStar
+                    size={40}
+                    color={favoriteStatus[product.id] ? "#FFD700" : undefined}
+                    stroke={favoriteStatus[product.id] ? "#000000" : "#D1D5DB"}
+                    fill={favoriteStatus[product.id] ? "#FFD700" : "none"}
+                    strokeWidth={2}
+                  />
+                </div>
                 <h3 className="text-gray-800 font-semibold text-lg mt-2 text-center">
                   {product.name}
                 </h3>
