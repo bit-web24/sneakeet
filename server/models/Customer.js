@@ -41,6 +41,23 @@ const favoriteSchema = new mongoose.Schema({
     },
 });
 
+const cartSchema = new mongoose.Schema({
+    productId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        default: 1,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
 const customerSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -75,7 +92,8 @@ const customerSchema = new mongoose.Schema({
         default: Date.now,
     },
     orders: [orderSchema],
-    favorites: [favoriteSchema]
+    favorites: [favoriteSchema],
+    cart: [cartSchema]
 });
 
 const Customer = mongoose.model('Customer', customerSchema);
