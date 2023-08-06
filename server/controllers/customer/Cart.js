@@ -57,9 +57,10 @@ const Cart = {
 
             customer.cart.push(item);
 
-            await customer.save();
+            const updatedCustomer = await customer.save();
+            const item_id = updatedCustomer.cart[updatedCustomer.cart.length - 1]._id;
 
-            res.status(200).json({ cart: customer.cart });
+            res.status(200).json({ item_id });
         } catch (error) {
             res.status(500).json({ error });
         }
@@ -67,32 +68,30 @@ const Cart = {
 
     removeItem: async (req, res) => {
         try {
-            const customerId = req.params._id;
-            const productId = req.params.item_id;
-
-            const customer = await Customer.findById(customerId);
-            if (!customer) {
-                return res.status(404).json({ message: 'Customer not found' });
-            }
-
-            const item = customer.cart.id(productId);
-            if (!item) {
-                return res.status(404).json({ message: 'Item not found in Cart' });
-            }
-
-            // Remove the item from the cart
-            const itemIndex = customer.cart.indexOf(item);
-            if (itemIndex > -1) {
-                customer.cart.splice(itemIndex, 1);
-            }
-
-            await customer.save();
-
-            res.status(200).json({ item });
+          const customerId = req.params._id;
+          const productId = req.params.item_id;
+      
+          const customer = await Customer.findById(customerId);
+          if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' });
+          }
+      
+          // To remove an item from the cart, use the 'remove' method of the subdocument array
+          const item = customer.cart.id(productId);
+          if (!item) {
+            return res.status(404).json({ message: 'Item not found in Cart' });
+          }
+      
+          // No need to find the index and splice the array manually. Just use 'remove' method.
+          customer.cart.remove(item);
+      
+          await customer.save();
+      
+          res.status(200).json({ item });
         } catch (error) {
-            res.status(500).json({ error });
+          res.status(500).json({ error });
         }
-    }
+      }      
 };
 
 module.exports = Cart;

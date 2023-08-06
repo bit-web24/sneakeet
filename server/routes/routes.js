@@ -39,7 +39,7 @@ router.post(`${BASE_URL}/cart`, authorize, customer.cart.addItem);
 // Remove Details
 router.delete(`${BASE_URL}/favorites/:favorite_id`, authorize, customer.favorites.removeItem); // Remove item from favorites
 router.delete(`${BASE_URL}/orders/:order_id`, authorize, customer.orders.removeItem); // Withdraw an Order
-router.get(`${BASE_URL}/cart/:item_id`, authorize, customer.cart.removeItem);
+router.delete(`${BASE_URL}/cart/:item_id`, authorize, customer.cart.removeItem);
 router.delete(`${BASE_URL}`, authorize, customer.profile.deleteDetails); // Delete account details
 
 module.exports = router;

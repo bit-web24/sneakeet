@@ -12,9 +12,9 @@ const Products = () => {
 
   useEffect(() => {
     fetchFavoriteStatuses();
+    fetchCartStatuses();
   }, []);
 
-  // Dummy product data for demonstration purposes
   const products = [];
   for (let i = 0; i < 8; i++) {
     products.push({
@@ -50,6 +50,25 @@ const Products = () => {
     }
   };
 
+  const fetchCartStatuses = async () => {
+    try {
+      const response = await axios.get(`${BASE_API_URL}/account/${userId}/cart`, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        const cart = response.data.cart;
+        const updatedCartStatus = { ...cartStatus };
+        cart.forEach((cart_item) => {
+          updatedCartStatus[cart_item.productId] = cart_item._id;
+        });
+        setCartStatus(updatedCartStatus);
+      }
+    } catch (error) {
+      console.error('Failed to fetch cart statuses:', error);
+    }
+  };
+
   const updateFavoriteStatus = async (productId, isFavorite) => {
     try {
       const data = {
@@ -60,7 +79,7 @@ const Products = () => {
 
       if (favoriteStatus[productId] === undefined) {
         const response = await axios.post(`${BASE_API_URL}/account/${userId}/favorites`, data, { withCredentials: true });
-        if (response.status == 200){
+        if (response.status == 200) {
           updatedFavoriteStatus[productId] = response.data.favorite_id;
         }
       } else {
@@ -77,7 +96,6 @@ const Products = () => {
     }
   };
 
-
   const handleFavorites = (productId) => {
     setFavoriteStatus((prevFavoriteStatus) => {
       const isCurrentlyFavorite = prevFavoriteStatus[productId];
@@ -86,8 +104,6 @@ const Products = () => {
       return { ...prevFavoriteStatus, [productId]: isFavorite };
     });
   };
-
-
 
   const addToCart = async (productId) => {
 
@@ -100,8 +116,10 @@ const Products = () => {
       const response = await axios.post(`${BASE_API_URL}/account/${userId}/cart`, data, {
         withCredentials: true,
       });
+      const updatedCartStatus = { ...cartStatus };
       if (response.status === 200) {
-        setCartStatus((prevCartStatus) => ({ ...prevCartStatus, [productId]: true }));
+        updatedCartStatus[productId] = response.data.item_id;
+        setCartStatus(updatedCartStatus);
       } else {
         console.error('Failed to add product to cart:', response.data);
       }
