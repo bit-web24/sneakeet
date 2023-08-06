@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import product1Image from "../assets/images/nike.png";
 import Banner from './Banner';
 import { FiShoppingCart, FiStar, FiCheckCircle } from 'react-icons/fi';
 import axios from "axios";
 import jwt from "jwt-decode";
+import { AuthContext } from "../Contexts/AuthContext";
 
 const BASE_API_URL = 'http://localhost:4000/api';
 
@@ -31,7 +32,8 @@ const Products = () => {
 
   const [cartStatus, setCartStatus] = useState(initialCartStatus);
   const [favoriteStatus, setFavoriteStatus] = useState(initialFavoriteStatus);
-
+  const {userId} = useContext(AuthContext);
+  
   const addToFavorites = (productId) => {
     setFavoriteStatus((prevFavoriteStatus) => ({
       ...prevFavoriteStatus,
@@ -40,18 +42,18 @@ const Products = () => {
   };
 
   const addToCart = async (productId) => {
-    let _id = null;
-    let token = document.cookie;    
-    token = token.startsWith('token=') ? token.slice(6) : token;
+    // let _id = null;
+    // let token = document.cookie;    
+    // token = token.startsWith('token=') ? token.slice(6) : token;
 
-    try {
-      const decodedToken = jwt(token);
-      if (decodedToken && decodedToken.userId) {
-        _id = decodedToken.userId;
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const decodedToken = jwt(token);
+    //   if (decodedToken && decodedToken.userId) {
+    //     _id = decodedToken.userId;
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     const data = {
       PRODUCT_ID: productId,
@@ -59,7 +61,7 @@ const Products = () => {
     };
 
     try {
-      const response = await axios.post(`${BASE_API_URL}/account/${_id}/cart`, data, {
+      const response = await axios.post(`${BASE_API_URL}/account/${userId}/cart`, data, {
         withCredentials: true,
       });
       if (response.status === 200) {

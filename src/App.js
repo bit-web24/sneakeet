@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
-import { AnimatePresence } from "framer-motion";
+import React, { useContext } from 'react';
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
 import './index.css'
 import Layout from './components/Layout';
@@ -14,27 +13,18 @@ import NotFound from './components/NotFound';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 
+import { AuthContext } from './Contexts/AuthContext';
+
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { isAuthenticated, isLoading, userId } = useContext(AuthContext);
   const location = useLocation();
 
-  useEffect(() => {
-    checkAuthenticationStatus();
-  }, []);
-
-  const checkAuthenticationStatus = async () => {
-    if (true) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-    setIsLoading(false);
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-    <AnimatePresence mode='wait'>
         <Routes key={location.pathname} location={location}>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -54,7 +44,6 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </AnimatePresence>
     </>
   );
 }
