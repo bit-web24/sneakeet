@@ -16,20 +16,18 @@ const displayCreateProductForm = (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const name = req.body.product.name;
-    const brand = req.body.product.brand;
-    const category = req.body.product.category;
-    const sizes = req.body.product.sizes;
-    const colors = req.body.product.colors;
-    const imgs = req.body.product.imgs;
+    const { name, brand, price, description, category, sizes, colors, imgs, availability } = req.body.product;
 
     const newProduct = new Product({
       name,
       brand,
+      price,
+      description,
       category,
       sizes,
       colors,
       imgs,
+      availability,
     });
 
     await newProduct.save();
@@ -66,7 +64,7 @@ const displayEditProductForm = async (req, res) => {
 
     res.render('edit-product', { product });
   } catch (error) {
-    res.status(500).json({error});
+    res.status(500).json({ error });
   }
 };
 
@@ -81,16 +79,19 @@ const updateProduct = async (req, res) => {
 
     product.name = req.body.product.name || product.name;
     product.brand = req.body.product.brand || product.brand;
+    product.price = req.body.product.price || product.price;
+    product.description = req.body.product.description || product.description;
     product.category = req.body.product.category || product.category;
     product.sizes = req.body.product.sizes || product.sizes;
     product.colors = req.body.product.colors || product.colors;
     product.imgs = req.body.product.imgs || product.imgs;
+    product.availability = req.body.product.availability || product.availability;
     product.updatedAt = Date.now();
 
     await product.save();
 
-    res.redirect('products' + productId);
-    // res.status(200).json({message: 'Product Updated Successfully'});
+    res.redirect('/products/' + productId);
+    // res.status(200).json({ message: 'Product Updated Successfully' });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -102,7 +103,7 @@ const deleteProduct = async (req, res) => {
 
     await Product.findByIdAndDelete(productId);
 
-    res.redirect('products');
+    res.redirect('/products');
   } catch (error) {
     res.status(500).json({ error });
   }
