@@ -1,15 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import product1Image from "../assets/images/nike.png";
 import Banner from './Banner';
 import { FiShoppingCart, FiStar, FiCheckCircle } from 'react-icons/fi';
 import axios from "axios";
-import jwt from "jwt-decode";
 import { AuthContext } from "../Contexts/AuthContext";
 
 const BASE_API_URL = 'http://localhost:4000/api';
 
 const Products = () => {
+
+  useEffect(() => {
+    fetchFavoriteStatuses();
+  }, []);
+
   // Dummy product data for demonstration purposes
   const products = [];
   for (let i = 0; i < 8; i++) {
@@ -23,37 +27,69 @@ const Products = () => {
     });
   }
 
-  const initialCartStatus = {};
-  const initialFavoriteStatus = {};
-  for (let i = 0; i < 8; i++) {
-    initialCartStatus[i] = false;
-    initialFavoriteStatus[i] = false;
-  }
+  const [cartStatus, setCartStatus] = useState({});
+  const [favoriteStatus, setFavoriteStatus] = useState({});
+  const { userId } = useContext(AuthContext);
 
-  const [cartStatus, setCartStatus] = useState(initialCartStatus);
-  const [favoriteStatus, setFavoriteStatus] = useState(initialFavoriteStatus);
-  const {userId} = useContext(AuthContext);
-  
-  const addToFavorites = (productId) => {
-    setFavoriteStatus((prevFavoriteStatus) => ({
-      ...prevFavoriteStatus,
-      [productId]: !prevFavoriteStatus[productId],
-    }));
+  const fetchFavoriteStatuses = async () => {
+    try {
+      const response = await axios.get(`${BASE_API_URL}/account/${userId}/favorites`, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        const favorites = response.data.favorites;
+        const updatedFavoriteStatus = { ...favoriteStatus };
+        favorites.forEach((favorite) => {
+          updatedFavoriteStatus[favorite.productId] = favorite._id;
+        });
+        setFavoriteStatus(updatedFavoriteStatus);
+      }
+    } catch (error) {
+      console.error('Failed to fetch favorite statuses:', error);
+    }
   };
 
-  const addToCart = async (productId) => {
-    // let _id = null;
-    // let token = document.cookie;    
-    // token = token.startsWith('token=') ? token.slice(6) : token;
+  const updateFavoriteStatus = async (productId, isFavorite) => {
+    try {
+      const data = {
+        PRODUCT_ID: productId,
+      };
 
-    // try {
-    //   const decodedToken = jwt(token);
-    //   if (decodedToken && decodedToken.userId) {
-    //     _id = decodedToken.userId;
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+      const updatedFavoriteStatus = { ...favoriteStatus };
+
+      if (favoriteStatus[productId] === undefined) {
+        const response = await axios.post(`${BASE_API_URL}/account/${userId}/favorites`, data, { withCredentials: true });
+        if (response.status == 200){
+          updatedFavoriteStatus[productId] = response.data.favorite_id;
+        }
+      } else {
+        const favorite_id = updatedFavoriteStatus[productId];
+        const response = await axios.delete(`${BASE_API_URL}/account/${userId}/favorites/${favorite_id}`, { withCredentials: true });
+        if (response.status == 200) {
+          updatedFavoriteStatus[productId] = undefined;
+        }
+      }
+
+      setFavoriteStatus(updatedFavoriteStatus);
+    } catch (error) {
+      console.error('Failed to update favorite status:', error);
+    }
+  };
+
+
+  const handleFavorites = (productId) => {
+    setFavoriteStatus((prevFavoriteStatus) => {
+      const isCurrentlyFavorite = prevFavoriteStatus[productId];
+      const isFavorite = !isCurrentlyFavorite;
+      updateFavoriteStatus(productId, isFavorite);
+      return { ...prevFavoriteStatus, [productId]: isFavorite };
+    });
+  };
+
+
+
+  const addToCart = async (productId) => {
 
     const data = {
       PRODUCT_ID: productId,
@@ -73,7 +109,6 @@ const Products = () => {
       console.error('Failed to add product to cart:', error);
     }
   };
-
 
   return (
     <>
@@ -96,7 +131,7 @@ const Products = () => {
                   </div>
                 </Link>
                 <div className={`p-2 rounded-full bg-white border-black border-2 text-3xl font-bold absolute top-4 left-4 ${favoriteStatus[product.id] ? "bg-white" : "bg-transparent"
-                  }`} onClick={() => addToFavorites(product.id)}>
+                  }`} onClick={() => handleFavorites(product.id)}>
                   <FiStar
                     size={40}
                     color={favoriteStatus[product.id] ? "#FFD700" : undefined}

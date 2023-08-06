@@ -16,7 +16,7 @@ import Signup from './components/Auth/Signup';
 import { AuthContext } from './Contexts/AuthContext';
 
 function App() {
-  const { isAuthenticated, isLoading, userId } = useContext(AuthContext);
+  const { isAuthenticated, isLoading } = useContext(AuthContext);
   const location = useLocation();
 
   if (isLoading) {

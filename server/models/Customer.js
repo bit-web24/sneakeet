@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema({
 });
 
 const favoriteSchema = new mongoose.Schema({
-    favoriteProduct: {
+    productId: {
         type: String,
         required: true,
         unique: true,
