@@ -8,15 +8,15 @@ const customer = require('../controllers/Customer');
 
 dotenv.config();
 
-// const API_VERSION = process.env.API_VERSION;
-// const BASE_URL = `/${API_VERSION}/account/:_id`;
-
 const BASE_URL = '/account/:_id';
 
 // Authanticate and Authorize
 router.post('/signup', authenticator.signup);
 router.post('/login', authenticator.login);
 router.post('/logout', authenticator.logout);
+
+//Fetch Product Details
+router.get(`/products/:product_id`, customer.products.getProductById);
 
 // Fetch Details
 router.get(`${BASE_URL}`, authorize, customer.profile.getDetails);

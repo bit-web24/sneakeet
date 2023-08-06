@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import CartItem from './Cart/CartItem';
 import productImg from '../assets/images/nike.png';
+import axios from 'axios';
+import { AuthContext } from "../Contexts/AuthContext";
+
+const BASE_API_URL = 'http://localhost:4000/api';
 
 const products = [
   {
@@ -38,8 +42,51 @@ const products = [
 ];
 
 const Cart = () => {
-  const subtotal = products.reduce((acc, product) => acc + product.price, 0);
+  const { userId } = useContext(AuthContext);
+  const [products, setProducts] = useState([]);
 
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await axios.get(`${BASE_API_URL}/account/${userId}/cart`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          const cart = response.data.cart;
+          const cartItems = [];
+
+          for (const item of cart) {
+            const productResponse = await axios.get(`${BASE_API_URL}/products/${item._id}`, {
+              withCredentials: true,
+            });
+
+            if (productResponse.status === 200) {
+              const productData = productResponse.data;
+              const cartItem = {
+                id: productData.id,
+                name: productData.name,
+                price: productData.price,
+                description: productData.description,
+                category: productData.category,
+                image: productImg, // Assuming all products will have the same image for demonstration
+              };
+              cartItems.push(cartItem);
+            }
+          }
+
+          setProducts(cartItems);
+        }
+      } catch (error) {
+        console.error('Error fetching cart data:', error);
+      }
+    };
+
+    fetchCartData();
+  }, [userId]);
+
+  // const subtotal = products.reduce((acc, product) => acc + product.price, 0);
+  const subtotal = 34354; // For Demo
   const handleOrder = () => {
     // Implement the logic to handle the order action here
     // For example, you can send the order to a server or display a confirmation message
