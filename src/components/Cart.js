@@ -64,12 +64,16 @@ const Cart = () => {
             if (productResponse.status === 200) {
               const productData = productResponse.data;
               const cartItem = {
-                id: productData.id,
+                id: productData._id,
+                availability: productData.availability,
                 name: productData.name,
+                brand: productData.brand,
                 price: productData.price,
                 description: productData.description,
                 category: productData.category,
-                image: productImg, // Assuming all products will have the same image for demonstration
+                sizes: productData.sizes,
+                colors: productData.colors,
+                images: productData.images,
               };
               cartItems.push(cartItem);
             }
