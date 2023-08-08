@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const connectToDB = require('./database/db');
 const path = require('path');
 const cors = require('cors');
+const methodOverride = require('method-override');
 
 const router = require('./routes/routes');
 const admin = require('./routes/admin');
@@ -29,6 +30,9 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(cookieParser());
+
+// Enable method override for PUT and DELETE requests
+app.use(methodOverride('_method'));
 
 // Routes
 app.use('/api', router);

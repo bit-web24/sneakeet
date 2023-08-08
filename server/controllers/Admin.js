@@ -42,8 +42,7 @@ const createProduct = async (req, res) => {
     });
 
     await newProduct.save();
-
-    res.status(201).json({ message: 'Product created successfully', product: newProduct });
+    res.redirect('/admin/products');
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -51,7 +50,7 @@ const createProduct = async (req, res) => {
 
 const displayProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
+    const productId = req.params._id;
 
     const product = await Product.findById(productId);
     if (!product) {
@@ -66,7 +65,7 @@ const displayProduct = async (req, res) => {
 
 const displayEditProductForm = async (req, res) => {
   try {
-    const productId = req.params.id;
+    const productId = req.params._id;
 
     const product = await Product.findById(productId);
     if (!product) {
@@ -81,28 +80,49 @@ const displayEditProductForm = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
+    const productId = req.params._id;
 
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    product.name = req.body.product.name;
-    product.brand = req.body.product.brand;
-    product.price = req.body.product.price;
-    product.description = req.body.product.description;
-    product.category = req.body.product.category;
-    product.sizes = req.body.product.sizes;
-    product.colors = req.body.product.colors;
-    product.imgs = req.body.product.imgs;
-    product.availability = req.body.product.availability;
+    product.name = req.body.name;
+    product.brand = req.body.brand;
+    product.price = req.body.price;
+    product.description = req.body.description;
+    product.category = req.body.category;
+
+    const colorArray = req.body.colors.split(',').map(color => color.trim());
+    const sizeArray = req.body.sizes.split(',').map(size => size.trim());
+    product.sizes = sizeArray;
+    product.colors = colorArray;
+
+    product.imgs = req.body.imgs;
+
+    const isAvailable = req.body.availability === 'on';
+    product.availability = isAvailable;
+
     product.updatedAt = Date.now();
 
     await product.save();
 
-    res.redirect('/products/' + productId);
-    // res.status(200).json({ message: 'Product Updated Successfully' });
+    res.redirect('/admin/products');
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+const displayDeleteProductForm = async (req, res) => {
+  try {
+    const productId = req.params._id;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.render('delete-product', { product });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -110,11 +130,11 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
+    const productId = req.params._id;
 
     await Product.findByIdAndDelete(productId);
 
-    res.redirect('/products');
+    res.redirect('/admin/products');
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -127,5 +147,6 @@ module.exports = {
   displayProduct,
   displayEditProductForm,
   updateProduct,
+  displayDeleteProductForm,
   deleteProduct,
 };

@@ -12,15 +12,18 @@ router.get('/products/new', admin.displayCreateProductForm);
 router.post('/products', admin.createProduct);
 
 // GET /admin/products/:id - Display a specific product
-router.get('/products/:id', admin.displayProduct);
+router.get('/products/:_id', admin.displayProduct);
 
 // GET /admin/products/:id/edit - Display the form to edit a product
-router.get('/products/:id/edit', admin.displayEditProductForm);
+router.get('/products/:_id/edit', admin.displayEditProductForm);
 
 // PUT /admin/products/:id - Update a specific product
-router.put('/products/:id', admin.updateProduct);
+router.put('/products/:_id', admin.updateProduct);
+
+// GET /admin/products/:id/edit - Display the form to edit a product
+router.get('/products/:_id/delete', admin.displayDeleteProductForm);
 
 // DELETE /admin/products/:id - Delete a specific product
-router.delete('/products/:id', admin.deleteProduct);
+router.delete('/products/:_id', admin.deleteProduct);
 
 module.exports = router;
