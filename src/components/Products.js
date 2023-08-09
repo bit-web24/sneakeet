@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import product1Image from "../assets/images/nike.png";
+import img from "../assets/images/nike.png";
 import Banner from './Banner';
 import { FiShoppingCart, FiStar, FiCheckCircle } from 'react-icons/fi';
 import axios from "axios";
@@ -8,24 +8,28 @@ import { AuthContext } from "../Contexts/AuthContext";
 
 const BASE_API_URL = 'http://localhost:4000/api';
 
-const Products = () => {
+const Products = ({products}) => {
 
   useEffect(() => {
     fetchFavoriteStatuses();
     fetchCartStatuses();
   }, []);
 
-  const products = [];
-  for (let i = 0; i < 8; i++) {
-    products.push({
-      id: i,
-      name: "Product " + i,
-      price: 29.99,
-      category: "Men's Shoes",
-      colors: ["Red", "Black", "White"],
-      image: product1Image,
-    });
-  }
+  // const products = [];
+  // for (let i = 0; i < 8; i++) {
+  //   products.push({
+  //     _id: i,
+  //     name: "Product " + i,
+  //     brand: "sample brand",
+  //     price: 29.99,
+  //     description: "sample description",
+  //     category: "Men's Shoes",
+  //     sizes: ['Xl, L, S'],
+  //     colors: ["Red", "Black", "White"],
+  //     images: ['img1-path', 'img2-path'],
+  //     availability: true,
+  //   });
+  // }
 
   const [cartStatus, setCartStatus] = useState({});
   const [favoriteStatus, setFavoriteStatus] = useState({});
@@ -134,27 +138,27 @@ const Products = () => {
       <div className="container min-h-screen mx-auto py-6 flex justify-center">
         <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 max-w-7xl">
           {products.map((product) => (
-            <div key={product.id} className="col-span-1">
+            <div key={product._id} className="col-span-1">
               <div className="bg-white p-4 rounded-md border-black border-2 relative">
-                <Link to={`/products/${product.id}`}>
+                <Link to={`/products/${product._id}`}>
                   <div
                     className="aspect-w-535 aspect-h-668 overflow-hidden"
                     style={{ maxWidth: '350px', maxHeight: '350px' }}
                   >
                     <img
-                      src={product.image}
+                      src={img}
                       alt={product.name}
                       className="object-cover w-full h-full rounded-md"
                     />
                   </div>
                 </Link>
                 <div className={`p-2 rounded-full bg-white border-black border-2 text-3xl font-bold absolute top-4 left-4 ${favoriteStatus[product.id] ? "bg-white" : "bg-transparent"
-                  }`} onClick={() => handleFavorites(product.id)}>
+                  }`} onClick={() => handleFavorites(product._id)}>
                   <FiStar
                     size={40}
-                    color={favoriteStatus[product.id] ? "#FFD700" : undefined}
-                    stroke={favoriteStatus[product.id] ? "#000000" : "#D1D5DB"}
-                    fill={favoriteStatus[product.id] ? "#FFD700" : "none"}
+                    color={favoriteStatus[product._id] ? "#FFD700" : undefined}
+                    stroke={favoriteStatus[product._id] ? "#000000" : "#D1D5DB"}
+                    fill={favoriteStatus[product._id] ? "#FFD700" : "none"}
                     strokeWidth={2}
                   />
                 </div>
@@ -167,7 +171,7 @@ const Products = () => {
                     <p className="text-gray-600 text-xl">Price: <span className="text-green-500 font-bold">₹ {product.price}</span></p>
                   </div>
                   <div>
-                    {cartStatus[product.id] ? (
+                    {cartStatus[product._id] ? (
                       <button className="flex items-center px-3 py-2 text-white bg-green-500 rounded-md">
                         <FiCheckCircle className="mr-2" />
                         Added
@@ -175,7 +179,7 @@ const Products = () => {
                     ) : (
                       <button
                         className="flex items-center px-3 py-2 text-white bg-black rounded-md hover:bg-gray-900"
-                        onClick={() => addToCart(product.id)}
+                        onClick={() => addToCart(product._id)}
                       >
                         <FiShoppingCart className="mr-2" />
                         Add to Cart

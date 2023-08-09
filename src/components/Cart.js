@@ -1,49 +1,15 @@
 import React, { useEffect, useContext, useState } from 'react';
 import CartItem from './Cart/CartItem';
-import productImg from '../assets/images/nike.png';
+import img from '../assets/images/nike.png';
 import axios from 'axios';
 import { AuthContext } from "../Contexts/AuthContext";
 
 const BASE_API_URL = 'http://localhost:4000/api';
 
-const products = [
-  {
-    id: 1,
-    name: 'Sample Shoe 1',
-    price: 49.99,
-    description: 'This is a sample shoe description 1.',
-    category: "Men's Shoes",
-    image: productImg,
-  },
-  {
-    id: 2,
-    name: 'Sample Shoe 2',
-    price: 59.99,
-    description: 'This is a sample shoe description 2.',
-    category: "Women's Shoes",
-    image: productImg,
-  },
-  {
-    id: 2,
-    name: 'Sample Shoe 2',
-    price: 59.99,
-    description: 'This is a sample shoe description 2.',
-    category: "Women's Shoes",
-    image: productImg,
-  },
-  {
-    id: 2,
-    name: 'Sample Shoe 2',
-    price: 59.99,
-    description: 'This is a sample shoe description 2.',
-    category: "Women's Shoes",
-    image: productImg,
-  },
-];
-
 const Cart = () => {
   const { userId } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
+  const [subtotal, setSubtotal] = useState(0.0);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -57,14 +23,14 @@ const Cart = () => {
           const cartItems = [];
 
           for (const item of cart) {
-            const productResponse = await axios.get(`${BASE_API_URL}/products/${item._id}`, {
+            const productResponse = await axios.get(`${BASE_API_URL}/products/${item.productId}`, {
               withCredentials: true,
             });
 
             if (productResponse.status === 200) {
-              const productData = productResponse.data;
+              const productData = productResponse.data.product;
               const cartItem = {
-                id: productData._id,
+                _id: item._id,
                 availability: productData.availability,
                 name: productData.name,
                 brand: productData.brand,
@@ -80,6 +46,13 @@ const Cart = () => {
           }
 
           setProducts(cartItems);
+
+          // Calculate subtotal using a loop
+          let subtotal = 0.0;
+          for (let x = 0; x < cartItems.length; x++) {
+            subtotal += parseFloat(cartItems[x].price);
+          }
+          setSubtotal(subtotal);
         }
       } catch (error) {
         console.error('Error fetching cart data:', error);
@@ -89,8 +62,26 @@ const Cart = () => {
     fetchCartData();
   }, [userId]);
 
-  // const subtotal = products.reduce((acc, product) => acc + product.price, 0);
-  const subtotal = 34354; // For Demo
+  const handleRemove = async (itemId, itemPrice) => {
+    try {
+      const response = await axios.delete(`${BASE_API_URL}/account/${userId}/cart/${itemId}`, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        // Remove the item from the products state based on itemId
+        setProducts(prevProducts => prevProducts.filter(product => product._id !== itemId));
+
+        // Update the subtotal by subtracting the removed item's price
+        setSubtotal(prevSubtotal => prevSubtotal - parseFloat(itemPrice));
+      }
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
+  };
+
+
+  // console.log(subtotal);
   const handleOrder = () => {
     // Implement the logic to handle the order action here
     // For example, you can send the order to a server or display a confirmation message
@@ -102,12 +93,12 @@ const Cart = () => {
         <h2 className="text-4xl font-bold text-gray-800 mb-6">Shopping Cart</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map((product) => (
-            <div key={product.id}>
-              <CartItem product={product} />
+            <div key={product._id}>
+              <CartItem product={product} onRemove={() => handleRemove(product._id, product.price)} />
             </div>
           ))}
         </div>
-        <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
+        <div className="mt-8 bg-white-500 p-6 rounded-lg shadow-md">
           <p className="text-xl font-semibold text-gray-800 mb-4">Order Summary</p>
           <div className="flex justify-between items-center">
             <p className="text-lg text-gray-800">Total:</p>

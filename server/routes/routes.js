@@ -18,6 +18,9 @@ router.post('/logout', authenticator.logout);
 //Fetch Product Details
 router.get(`/products/:product_id`, customer.products.getProductById);
 
+// GET /api/products
+router.get('/products', customer.products.listProducts);
+
 // Fetch Details
 router.get(`${BASE_URL}`, authorize, customer.profile.getDetails);
 
