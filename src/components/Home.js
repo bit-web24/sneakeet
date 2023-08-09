@@ -6,7 +6,7 @@ const BASE_API_URL = 'http://localhost:4000/api';
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {

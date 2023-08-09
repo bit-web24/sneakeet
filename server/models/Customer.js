@@ -9,18 +9,25 @@ mongoose.connect(process.env.ATLAS_KEY, {
     useUnifiedTopology: true,
 });
 
-const orderSchema = new mongoose.Schema({
-    orderNumber: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    product: {
+const orderedItems = new mongoose.Schema({
+    productId: {
         type: String,
         required: true,
     },
-    price: {
+    quantity: {
         type: Number,
+        required: true,
+    },
+});
+
+const orderSchema = new mongoose.Schema({
+    products: [orderedItems],
+    completed: {
+        type: Boolean,
+        required: true,
+    },
+    status: {
+        type: String,
         required: true,
     },
     createdAt: {

@@ -15,22 +15,6 @@ const Products = ({products}) => {
     fetchCartStatuses();
   }, []);
 
-  // const products = [];
-  // for (let i = 0; i < 8; i++) {
-  //   products.push({
-  //     _id: i,
-  //     name: "Product " + i,
-  //     brand: "sample brand",
-  //     price: 29.99,
-  //     description: "sample description",
-  //     category: "Men's Shoes",
-  //     sizes: ['Xl, L, S'],
-  //     colors: ["Red", "Black", "White"],
-  //     images: ['img1-path', 'img2-path'],
-  //     availability: true,
-  //   });
-  // }
-
   const [cartStatus, setCartStatus] = useState({});
   const [favoriteStatus, setFavoriteStatus] = useState({});
   const { userId } = useContext(AuthContext);

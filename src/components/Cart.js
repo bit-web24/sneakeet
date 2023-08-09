@@ -31,6 +31,8 @@ const Cart = () => {
               const productData = productResponse.data.product;
               const cartItem = {
                 _id: item._id,
+                productId: productData._id,
+                quantity: item.quantity,
                 availability: productData.availability,
                 name: productData.name,
                 brand: productData.brand,
@@ -81,10 +83,31 @@ const Cart = () => {
   };
 
 
-  // console.log(subtotal);
-  const handleOrder = () => {
-    // Implement the logic to handle the order action here
-    // For example, you can send the order to a server or display a confirmation message
+  const handleOrder = async () => {
+    let PRODUCTS = [];
+    for (const item of products) {
+      PRODUCTS.push({
+        productId: item.productId,
+        quantity: item.quantity,
+      });
+    }
+    console.log(PRODUCTS);
+    try {
+      const response = await axios.post(`${BASE_API_URL}/account/${userId}/orders`, {
+        products: PRODUCTS,
+      }, {
+        withCredentials: true,
+      });
+
+      if (response.status === 201) {
+        console.log(response.data.order);
+        // send this order details to 
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
