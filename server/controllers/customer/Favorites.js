@@ -14,7 +14,7 @@ const Favorites = {
 
             res.status(200).json({ favorites });
         } catch (error) {
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ error });
         }
     },
 

@@ -3,6 +3,7 @@ import CartItem from './Cart/CartItem';
 import img from '../assets/images/nike.png';
 import axios from 'axios';
 import { AuthContext } from "../Contexts/AuthContext";
+import { FaCheckCircle } from 'react-icons/fa';
 
 const BASE_API_URL = 'http://localhost:4000/api';
 
@@ -10,6 +11,7 @@ const Cart = () => {
   const { userId } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [subtotal, setSubtotal] = useState(0.0);
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -100,8 +102,7 @@ const Cart = () => {
       });
 
       if (response.status === 201) {
-        console.log(response.data.order);
-        // send this order details to 
+        setOrderPlaced(true);
       } else {
         console.log(response);
       }
@@ -136,10 +137,12 @@ const Cart = () => {
             <p className="text-2xl font-bold text-blue-700">${(subtotal + 10).toFixed(2)}</p>
           </div>
           <button
-            className="mt-8 w-full px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600"
+            className={`mt-8 w-full px-6 py-3 bg-${orderPlaced ? 'green' : 'blue'}-500 text-white font-semibold rounded-lg shadow-md hover:bg-${orderPlaced ? 'green' : 'blue'}-600`}
             onClick={handleOrder}
+            disabled={orderPlaced}
           >
-            Order Now
+            {orderPlaced ? <FaCheckCircle className="mr-2" /> : null}
+            {orderPlaced ? 'Order Placed' : 'Order Now'}
           </button>
         </div>
       </div>
