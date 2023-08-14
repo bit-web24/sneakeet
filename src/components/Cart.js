@@ -5,7 +5,7 @@ import axios from 'axios';
 import { AuthContext } from "../Contexts/AuthContext";
 import { FaCheckCircle } from 'react-icons/fa';
 
-const BASE_API_URL = 'http://localhost:4000/api';
+const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
 
 const Cart = () => {
   const { userId } = useContext(AuthContext);

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import Message from '../Message';
 
-const BASE_API_URL='http://localhost:4000/api/';
+const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -29,6 +29,8 @@ const Signup = () => {
           setRegistrationStatus('');
         }, 3000);
         window.location.href = '/login';
+      } else {
+        console.log(response);
       }
 
     } catch (error) {

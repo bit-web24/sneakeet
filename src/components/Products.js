@@ -6,7 +6,7 @@ import { FiShoppingCart, FiStar, FiCheckCircle } from 'react-icons/fi';
 import axios from "axios";
 import { AuthContext } from "../Contexts/AuthContext";
 
-const BASE_API_URL = 'http://localhost:4000/api';
+const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
 
 const Products = ({products}) => {
 
