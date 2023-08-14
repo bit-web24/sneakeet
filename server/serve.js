@@ -24,7 +24,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:4001',
+  origin: process.env.ORIGIN,
   credentials: true,
 }));
 app.use(bodyParser.json());
